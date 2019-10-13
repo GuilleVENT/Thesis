@@ -192,8 +192,8 @@ def check_n_write(playlist_tuple,ID):
 		
 		
 		for elem in playlist_tuple_2:
-			print(elem[0],elem[1],elem[2])
-			if elem[0] == float('nan'):
+			#
+			if type(elem[0]) == type(1.0):
 				pass
 			else:
 				line = elem[0]+', '+elem[1]+', '+elem[2]+' \n'
@@ -240,8 +240,8 @@ def check_duplicates(playlist_tuple,big_list,ID):
 
 			if song_id in big_list:
 				l_indx.append(index)
-				print('DUPLICATE:')
-				print(colored("--->",'red')+" "+song_id+", "+song_name+", "+artist_name)
+				#print('DUPLICATE:')
+				#print(colored("--->",'red')+" "+song_id+", "+song_name+", "+artist_name)
 
 		else:
 			artist = elem[0]
@@ -253,8 +253,8 @@ def check_duplicates(playlist_tuple,big_list,ID):
 		
 			if elem in big_list:
 				l_indx.append(index)
-				print('DUPLICATE:')
-				print(colored("--->",'red')+" "", "+song+", "+artist)
+				#print('DUPLICATE:')
+				#print(colored("--->",'red')+" "", "+song+", "+artist)
 
 	#print(l_indx)
 	return l_indx
