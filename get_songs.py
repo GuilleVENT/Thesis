@@ -9,13 +9,17 @@ from termcolor import colored
 import numpy as np
 
 
+
 import genius_
 
 from operator import itemgetter
 
+# global result directory of req_spotify.py
+path_RES = r'user_PL/'
+
 
 def write_all_songs():
-	path_RES = r'user_PL/'
+	
 	days = []
 
 	#				***DEVELOPING***
@@ -47,6 +51,8 @@ def write_all_songs():
 						artist_names = data.Artist1.values.tolist()
 						song_ids     = data.Song2.values.tolist()
 
+						download_link= data.Preview_URL.values.tolist()
+
 						#print(song_names)
 						#print(artist_names)
 						#print(song_ids)
@@ -66,6 +72,7 @@ def write_all_songs():
 						song_names.pop(0)
 						artist_names.pop(0)
 						song_ids.pop(0)
+						download_link.pop(0)
 
 						#print(song_names)
 						#print(artist_names)
@@ -78,13 +85,17 @@ def write_all_songs():
 							playlist_tuple = list(zip(artist_names, song_names))
 							#print(playlist_tuple)
 							#sys.exit()
-							#check_n_write(playlist_tuple,ID=False)
+							check_n_write(playlist_tuple,ID=0)
 							
 
 							playlist_tuple_2 = list(zip(artist_names,song_names,song_ids))
 							#print(playlist_tuple_2)
 							#sys.exit()
-							check_n_write(playlist_tuple_2,ID=True)
+							check_n_write(playlist_tuple_2,ID=1)
+
+							#write_link_csv(song_ids,download_link)
+
+
 '''	
 						#song_names   = data.Song1.values.tolist()
 						#artist_names = data.Artist1.values.tolist()
@@ -105,7 +116,7 @@ def write_all_songs():
 						#header_songs_names 	= str('Song_'+song_names.pop(0))
 						#header_artist    	= str('Artist_'+artist_names.pop(0))
 						#header_album 		= str('Album_'+album_names.pop(0))
-						#download_link.pop(0)
+						#####download_link.pop(0)
 						#header_download_link= str('Download_Link')
 						
 						
@@ -124,10 +135,26 @@ def write_all_songs():
 
 
 
+def write_link_csv(song_ids,download_link):
+	header_songs_ids 	= 'Song_ID'
+	header_download_link= 'Download_Link'
+
+	songs_download_link_file = r'songs_data/'
+
+	if os.path.isfile(songs_download_link_file):
+		pass
+	'''
+	col1 = pandas.DataFrame({header_songs_ids: song_ids})
+	col5 = pandas.DataFrame({header_download_link: download_link})
+	pandas.concat([df1,df2]).drop_duplicates().reset_index(drop=True)
+	##	^^duplicates^			no more haha	
+	#df.to_csv(all_songs_logfile,index=False)
+	'''
+
 def check_n_write(playlist_tuple,ID):
 	## i can be 1 or 0 
 
-	if ID == True:
+	if ID == 1:
 		t = "ID"	 ## TRUE
 		playlist_tuple_2 = []
 		for song in playlist_tuple:
@@ -136,7 +163,7 @@ def check_n_write(playlist_tuple,ID):
 			# -
 
 	
-	else:
+	if ID == 0:
 		t = ""
 
 	#print(playlist_tuple_2)
@@ -279,14 +306,133 @@ def get_all_songs():
 		print(artist_N)
 		genius_.main(song_N,artist_N)
 
+def popular_pl():
+
+	#print(path_RES)
+
+	# 
+	for user in os.listdir(path_RES):
+		if user.startswith('.'):
+			pass
+		else:
+			print(path_RES+user)
+			
+			days = os.listdir(path_RES+user)
+			pl_list = os.listdir(path_RES+user+"/"+days[1])
+
+			for i, day in enumerate(days):
+				if day.startswith("."):
+					del days[i]
+
+			for i, pl in enumerate(pl_list):
+				if pl.startswith('.'):
+					del pl_list[i]
+
+			get_followers(user, days, pl_list)
+
+def get_followers(user,days,pl_list):
+
+	print(" **************************************** ")
+	
+	pl_follow_avrg = []
+	
+	for pl in pl_list:
+		days_column = ['Days']
+		popularity_column = ['Followers']
+		pop = []
+		
+		i = 0
+		
+		while i < len(days):
+			try:
+				path = path_RES+'/'+user+'/'+days[i]+'/'+pl
+				df = pandas.read_csv(path)
+				popularity = int(df['Popularity'].iloc[0])
+			except IOError:
+				print(" FAIL FINDING PL:")
+				print(user)
+				print(pl)
+				fail_path = r"pl_popularity/deleted_pl.txt"
+				with open(fail_path,'a') as fails:				## this should be emptied before the function get followers is called. BC it just appends the same stuff over and over
+					fails.write(user+' , '+pl+' // ')
+				break
+			except ValueError:
+				print(" FAIL FINDING PL:")
+				print(user)
+				print(pl)
+				fail_path = r"pl_popularity/deleted_pl.txt"
+				with open(fail_path,'a') as fails:				## this should be emptied before the function get followers is called. BC it just appends the same stuff over and over
+					fails.write(user+' , '+pl+' // ')
+				break
+
+			popularity_column.append(popularity)
+			#print popularity_column
+			#print popularity
+			#print type(popularity)
+			pop.append(popularity)
+			days_column.append(days[i])
 
 
+			i = i+1
+
+		if len(pop)!=0:
+			avrg_pop = sum(pop) / float(len(pop))
+			temp_tuple = (pl[:-4],avrg_pop)
+
+			pl_follow_avrg.append(temp_tuple)
+
+			output_path = r'pl_popularity/'+user+'/'
+			if not os.path.exists(output_path):
+				os.makedirs(output_path)
+
+			print(days_column)
+			print(popularity_column)
+			print(type(days_column))
+			print(type(popularity_column))
+			#sys.exit(output_path+pl)
+
+			with open(output_path+pl,'w') as f:
+				writer = csv.writer(f)
+				writer.writerows(zip(days_column,popularity_column))
+		
+		
+	print(" *********************** ")
+	print(pl_follow_avrg)
+	print(" *********************** ")
+
+	get_popular_pl(user,pl_follow_avrg)
+
+
+def get_popular_pl(user,pl_follow_avrg):
+
+	followers_l_sorted = sorted(pl_follow_avrg, key=lambda tup: tup[1])
+
+	followers_tupl = followers_l_sorted[::-1]
+
+	print("PL of user "+user+" sorted:")
+	print(followers_tupl)
+
+	top = followers_tupl[:15]		### GET TOP 15 PL
+									### top is a variable of the top X pl with the most followers
+
+	path_csv_file =  r"pl_to_inspect/"
+	if not os.path.exists(path_csv_file):
+			os.makedirs(path_csv_file)
+
+	path_csv_file = open(path_csv_file+"pl_to_inspect_"+user+".csv",'w')
+	for elemnt in top:
+		path_csv_file.write("%s," %elemnt[0])
 
 
 
 def init():
+
+	popular_pl()
+
+	# input these popular playlist to write these files:
 	write_all_songs()
-	#get_all_songs()
+	
+	#get_all_songs()   ## gathers all the data of the songs of the popular playlists! 
 
 
 init()
