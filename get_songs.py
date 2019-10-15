@@ -2,11 +2,12 @@
 from os import listdir
 import os
 from pathlib import Path
-import pandas
+import pandas as pd
 import csv
 import sys
 from termcolor import colored
 import numpy as np
+
 
 
 
@@ -16,6 +17,8 @@ from operator import itemgetter
 
 # global result directory of req_spotify.py
 path_RES = r'user_PL/'
+
+PATH = os.path.dirname(os.path.abspath(__file__))+'/'
 
 
 def write_all_songs():
@@ -44,7 +47,7 @@ def write_all_songs():
 						print(path_2_day+playlist)
 						
 
-						data = pandas.read_csv(path_2_day+playlist,header=0)
+						data = pd.read_csv(path_2_day+playlist,header=0)
 
 
 						song_names   = data.Song1.values.tolist()
@@ -200,7 +203,7 @@ def check_n_write(playlist_tuple,ID):
 				#print(big_list)
 
 	if ID == True:
-		index_2_delete = check_duplicates(playlist_tuple_2, big_list,ID=True)
+		index_2_delete = check_duplicates(playlist_tuple_2, big_list,ID=1)
 		#print(playlist_tuple_2)
 		#print(index_2_delete)
 
@@ -231,7 +234,7 @@ def check_n_write(playlist_tuple,ID):
 					file.write(line)
 
 	else:
-		index_2_delete = check_duplicates(playlist_tuple,big_list,ID=False)
+		index_2_delete = check_duplicates(playlist_tuple,big_list,ID=0)
 
 		if len(index_2_delete) == len(playlist_tuple):
 			print("====>"+colored("All the songs in this playlist were already in all_songs.txt",'cyan'))
@@ -257,7 +260,7 @@ def check_duplicates(playlist_tuple,big_list,ID):
 	l_indx = []
 
 	for index, elem in enumerate(playlist_tuple):
-		if ID==True:
+		if ID==1:
 			song_id = elem[0]
 			song_name = elem[1]
 			artist_name = elem[2]
@@ -306,11 +309,19 @@ def get_all_songs():
 		print(artist_N)
 		genius_.main(song_N,artist_N)
 
+
+## This part first checks for the most popular playlists of each user 
+##  => popular_pl() --> get_followers() --> pl_to_inspect
+## then a list of songs in each playlist is written --> to later extract the features of each song individually 
+## 
+
 def popular_pl():
 
 	#print(path_RES)
 
 	# 
+	## DEVELOPING:
+	'''
 	for user in os.listdir(path_RES):
 		if user.startswith('.'):
 			pass
@@ -329,6 +340,108 @@ def popular_pl():
 					del pl_list[i]
 
 			get_followers(user, days, pl_list)
+	'''
+
+	path_2_inspect = r'pl_to_inspect/'
+	for user in listdir(path_2_inspect):
+		if user.startswith('.'):
+			pass
+		else:
+			print(" Path: "+r"pl_to_inspect/"+user)
+			#df = pd.read_csv(r'pl_to_inspect/'+user)
+
+			#print(df)
+			with open(r"pl_to_inspect/"+user, 'r') as f:
+				reader = csv.reader(f)
+				pl_list = list(reader)
+				pl_list = pl_list[0]
+
+				for pl in pl_list:
+					
+					get_songs(user, pl)
+
+	#sys.exit()
+
+def get_songs(user,pl):
+	print(user[:-4])
+	user = user[:-4]
+	
+	print(pl)
+	#sys.exit()
+
+	for day in listdir(path_RES+user):
+		if not day.startswith('.'):
+			#print(day)
+
+			
+			#print(pl)
+			#print(day)
+			#print(user)
+			#print(type(pl))
+			#print(type(day))
+			#print(type(user))
+			#sys.exit()
+			path_2_day = user+'/'+day+'/'+pl+'.csv'
+							
+			print(" ***** PLAYLIST = "+colored(pl,'green')+" *****")
+			print(path_2_day)
+			
+
+			data = pd.read_csv(PATH+path_RES+path_2_day,header=0)
+
+
+			df = data[['Song2','Artist1','Song1','Preview_URL']]
+
+			print(df)
+			write_pl_songlist(user,pl,df)
+			sys.exit()
+			#song_names   = data.Song1.values.tolist()
+			#artist_names = data.Artist1.values.tolist()
+			#song_ids     = data.Song2.values.tolist()
+			#download_link= data.Preview_URL.values.tolist()
+
+			#print(song_names)
+			#print(artist_names)
+			#print(song_ids)
+			#print(download_link)
+			
+
+			
+			## i'm going to write a TSV file so no check for commas is needed
+			'''
+			for counter, song_name in enumerate(song_names):
+				if "," in song_name:
+					#print(song_name)
+					#print(colored("HERE",'blue'))
+					song_names[counter] = song_name.replace(',',' ')
+
+			for counter, artist_name in enumerate(artist_names):
+				if "," in artist_name:
+					artist_names[counter] = artist_name.replace(",",' ')
+			'''
+
+			#song_names.pop(0)
+			#artist_names.pop(0)
+			#song_ids.pop(0)
+			#download_link.pop(0)
+			#sys.exit()
+
+
+def write_pl_songlist(user,pl,df):
+
+	path_2_playlist_songlist = r'pl_songslist/'
+	path = path_2_playlist_songlist+user+'/'
+	#print(os.path)
+	if not os.path.exists(path):
+		os.makedirs(path)
+
+	file = Path(PATH+path+pl+'.tsv')
+	#print(file)
+	if not file.exists():
+		df.to_csv(path+pl+'.tsv',index=False,sep='\t')
+
+
+
 
 def get_followers(user,days,pl_list):
 
@@ -337,19 +450,23 @@ def get_followers(user,days,pl_list):
 	pl_follow_avrg = []
 	
 	for pl in pl_list:
+		print(" PLAYLIST: "+colored(pl,'blue'))
 		days_column = ['Days']
 		popularity_column = ['Followers']
 		pop = []
+
+		sorting_list = []
 		
 		i = 0
 		
 		while i < len(days):
+			path = path_RES+user+'/'+days[i]+'/'+pl
+			print(" "+colored(path,'cyan'))
 			try:
-				path = path_RES+'/'+user+'/'+days[i]+'/'+pl
-				df = pandas.read_csv(path)
+				df = pd.read_csv(path)
 				popularity = int(df['Popularity'].iloc[0])
 			except IOError:
-				print(" FAIL FINDING PL:")
+				print(" FAIL FINDING PL:"+colored('ERROR--Code:1','red'))
 				print(user)
 				print(pl)
 				fail_path = r"pl_popularity/deleted_pl.txt"
@@ -357,7 +474,7 @@ def get_followers(user,days,pl_list):
 					fails.write(user+' , '+pl+' // ')
 				break
 			except ValueError:
-				print(" FAIL FINDING PL:")
+				print(" FAIL FINDING PL:"+colored('ERROR--Code:2','red'))
 				print(user)
 				print(pl)
 				fail_path = r"pl_popularity/deleted_pl.txt"
@@ -372,54 +489,81 @@ def get_followers(user,days,pl_list):
 			pop.append(popularity)
 			days_column.append(days[i])
 
+			month, day = days[i].split('_')
+
+
+			sorting_list.append(tuple((day,month,popularity)))
+			sorted_list = sorted(sorting_list, key=lambda element: (int(element[0]), int(element[1])))
+
+
 
 			i = i+1
 
-		if len(pop)!=0:
-			avrg_pop = sum(pop) / float(len(pop))
-			temp_tuple = (pl[:-4],avrg_pop)
+		#sys.exit(sorted_list)
 
-			pl_follow_avrg.append(temp_tuple)
-
-			output_path = r'pl_popularity/'+user+'/'
-			if not os.path.exists(output_path):
-				os.makedirs(output_path)
-
-			print(days_column)
-			print(popularity_column)
-			print(type(days_column))
-			print(type(popularity_column))
-			#sys.exit(output_path+pl)
-
-			with open(output_path+pl,'w') as f:
-				writer = csv.writer(f)
-				writer.writerows(zip(days_column,popularity_column))
+		df = pd.DataFrame(sorted_list, columns=['Day','Month','Followers'])
+		output_path = r'pl_popularity/'+user+'/'
 		
+		if not os.path.exists(output_path):
+			os.makedirs(output_path)
 		
+		df.to_csv(output_path+pl)
+
+
+		
+		avrg_pop = df['Followers'].mean()
+
+		temp_tuple = (pl[:-4],avrg_pop)
+
+		pl_follow_avrg.append(temp_tuple)
+
+		
+	
+
+		#print(days_column)
+		#print(popularity_column)
+		#print(type(days_column))
+		#print(type(popularity_column))
+		#sys.exit(output_path+pl)
+
+		#with open(output_path+pl,'w') as f:
+		#	df.to_csv(index=False)
+
+		
+	
 	print(" *********************** ")
 	print(pl_follow_avrg)
 	print(" *********************** ")
 
-	get_popular_pl(user,pl_follow_avrg)
+	pl_to_inspect(user,pl_follow_avrg)
+	
 
+def pl_to_inspect(user,pl_follow_avrg):
 
-def get_popular_pl(user,pl_follow_avrg):
+	## reducing number of users:
+	## change this to reduce the number of users to inspect! 
+	if user == 'spotify':
+		Num = 10
+	else:
+		Num = 5
 
 	followers_l_sorted = sorted(pl_follow_avrg, key=lambda tup: tup[1])
 
 	followers_tupl = followers_l_sorted[::-1]
 
-	print("PL of user "+user+" sorted:")
-	print(followers_tupl)
+	#print("PL of user "+user+" sorted:")
+	#print(followers_tupl)
+	#sys.exit()
 
-	top = followers_tupl[:15]		### GET TOP 15 PL
+	top = followers_tupl[:Num]		### GET TOP 15 PL
 									### top is a variable of the top X pl with the most followers
 
 	path_csv_file =  r"pl_to_inspect/"
 	if not os.path.exists(path_csv_file):
 			os.makedirs(path_csv_file)
 
-	path_csv_file = open(path_csv_file+"pl_to_inspect_"+user+".csv",'w')
+	path_csv_file = open(path_csv_file+""+user+".csv",'w')
+
 	for elemnt in top:
 		path_csv_file.write("%s," %elemnt[0])
 
@@ -492,4 +636,24 @@ init()
 			with open(all_songs_txt, "a") as file:
 				file.write(line)
 			pass
+
+	months = []
+	days   = []
+
+		for indx, elem in enumerate(days_column):
+			print(elem)
+			if elem == 'Days':
+				pass
+			else: 
+				tup = tuple(elem.split('_'))
+				month,day = elem.split('_')
+				#print(month)
+				#print(type(month))
+				months.append(month)
+				days.append(day)
+				months.sort()
+				days.sort()
+				print(months)
+				print(days)
+				sys.exit('DAAA')
 '''
