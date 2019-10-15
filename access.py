@@ -2,9 +2,10 @@ import requests
 import base64
 import json
 
-clientID     =  "fa83a2fec7c440b7a2795d600d6b2c7e"
-clientSecret =  "4fa07375d53447aeb3482a716a359587"
-
+## this is given to you when you register on Spotify's API
+clientID     =  ""
+clientSecret =  ""
+## edit it
 
 def get_token():
     payload = clientID + ":" + clientSecret
