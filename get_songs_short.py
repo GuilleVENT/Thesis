@@ -421,7 +421,7 @@ def pl_setlist(user,pl,df):
 		##	^^duplicates^			no more haha	
 		result_df.to_csv(file,sep='\t',index=False)
 
-
+	print(' -> done with setlist \n all songs data...')
 	write_all_songs(user,pl,df)
 
 def write_all_songs(user,pl,df):
@@ -432,14 +432,28 @@ def write_all_songs(user,pl,df):
 	
 	else:
 		read = pd.read_csv(all_songs_file,sep='\t')
+		all_songsID = read.Song1.values.tolist()
 		# dropping ALL duplicte values 
-		res  = pd.concat([read,df])
+		'''res  = pd.concat([read,df])
+		print(res)
+		print(' - - - ')
+		da=res.drop_duplicates(subset='Song1',keep = 'first', inplace = False)
+		print(da)
+
+		result_df = pd.concat([read,da])
+		print(result_df)
+		##	^^duplicates^			no more haha
+		'''
+		for index, row in df.iterrows():
+			if row['Song1'] in all_songsID:
+				df=df.drop(index)
+			else:
+				pass
+
+		res = pd.concat([read,df])
 		
-		res.drop_duplicates(subset='Song1',keep = 'first', inplace = True)
+		res.to_csv(all_songs_file,sep='\t',index=False)
 		
-		result_df = pd.concat([read,res])
-		##	^^duplicates^			no more haha	
-		result_df.to_csv(all_songs_file,sep='\t',index=False)
 
 
 def get_followers(user,days,pl_list):
