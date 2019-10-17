@@ -22,4 +22,6 @@ for index, song in enumerate(song_names):
 		artist = artist_names[index]
 		print(colored(' --->\n '+song+' by '+artist,'green'))
 		genius_.main(song,artist)
+		## CRASH @ Higher Love by Kygo!
+		## 
 
