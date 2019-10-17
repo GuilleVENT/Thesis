@@ -21,276 +21,7 @@ path_RES = r'user_PL/'
 PATH = os.path.dirname(os.path.abspath(__file__))+'/'
 
 
-def write_all_songs():
-	
-	days = []
-
-	#				***DEVELOPING***
-	
-	for user in listdir(path_RES):
-		if not user.startswith('.'):
-			print(" ***** USER = "+colored(user,'red')+" *****")
-			#print(user)
-
-			## part 1 get all songs
-
-			for day in listdir(path_RES+user):
-				if not day.startswith('.'):
-					#print(day)
-
-					path_2_day = path_RES+user+'/'+day+'/'
-					print(path_2_day)
-
-					for playlist in listdir(path_2_day):
-						
-						print(" ***** PLAYLIST = "+colored(playlist,'green')+" *****")
-						print(path_2_day+playlist)
-						
-
-						data = pd.read_csv(path_2_day+playlist,header=0)
-
-
-						song_names   = data.Song1.values.tolist()
-						artist_names = data.Artist1.values.tolist()
-						song_ids     = data.Song2.values.tolist()
-
-						download_link= data.Preview_URL.values.tolist()
-
-						#print(song_names)
-						#print(artist_names)
-						#print(song_ids)
-
-
-						for counter, song_name in enumerate(song_names):
-							if "," in song_name:
-								#print(song_name)
-								#print(colored("HERE",'blue'))
-								song_names[counter] = song_name.replace(',',' ')
-
-						for counter, artist_name in enumerate(artist_names):
-							if "," in artist_name:
-								artist_names[counter] = artist_name.replace(",",' ')
-
-
-						song_names.pop(0)
-						artist_names.pop(0)
-						song_ids.pop(0)
-						download_link.pop(0)
-
-						#print(song_names)
-						#print(artist_names)
-						#print(song_ids)
-
-						if len(song_names) == 0:
-							pass
-						else:
-							
-							playlist_tuple = list(zip(artist_names, song_names))
-							#print(playlist_tuple)
-							#sys.exit()
-							check_n_write(playlist_tuple,ID=0)
-							
-
-							playlist_tuple_2 = list(zip(artist_names,song_names,song_ids))
-							#print(playlist_tuple_2)
-							#sys.exit()
-							check_n_write(playlist_tuple_2,ID=1)
-
-							#write_link_csv(song_ids,download_link)
-
-
-'''	
-						#song_names   = data.Song1.values.tolist()
-						#artist_names = data.Artist1.values.tolist()
-						#album_names  = data.Album1.values.tolist()
-						#download_link= data.Preview_URL.values.tolist()
-
-
-						## *** POPULARITY ***
-						## read playlists followers
-						#pop_col = data.Popularity.values.tolist()
-						#followers = pop_col.pop(0)
-						## read playlists followers
-						#get_popularity(song_ids, song_names, artist_names, album_names, pop_col)
-
-
-
-						#header_songs_ids 	= str('Song_'+song_ids.pop(0))
-						#header_songs_names 	= str('Song_'+song_names.pop(0))
-						#header_artist    	= str('Artist_'+artist_names.pop(0))
-						#header_album 		= str('Album_'+album_names.pop(0))
-						#####download_link.pop(0)
-						#header_download_link= str('Download_Link')
-						
-						
-						#col1 = pandas.DataFrame({header_songs_ids: song_ids})
-						#col2 = pandas.DataFrame({header_songs_names: song_names})
-						#col3 = pandas.DataFrame({header_artist: artist_names})
-						#col4 = pandas.DataFrame({header_album: album_names})
-						#col5 = pandas.DataFrame({header_download_link: download_link})
-
-						#df = pandas.concat([col1,col2,col3,col4,col5], axis=1)
-						#print(df)
-						
-						##no need to check for duplicates
-						#df.to_csv(all_songs_logfile,index=False)
-'''						#df.to_csv(all_songs_logfile_tsv,index=False,sep='\t')
-
-
-
-def write_link_csv(song_ids,download_link):
-	header_songs_ids 	= 'Song_ID'
-	header_download_link= 'Download_Link'
-
-	songs_download_link_file = r'songs_data/'
-
-	if os.path.isfile(songs_download_link_file):
-		pass
-	'''
-	col1 = pandas.DataFrame({header_songs_ids: song_ids})
-	col5 = pandas.DataFrame({header_download_link: download_link})
-	pandas.concat([df1,df2]).drop_duplicates().reset_index(drop=True)
-	##	^^duplicates^			no more haha	
-	#df.to_csv(all_songs_logfile,index=False)
-	'''
-
-def check_n_write(playlist_tuple,ID):
-	## i can be 1 or 0 
-
-	if ID == 1:
-		t = "ID"	 ## TRUE
-		playlist_tuple_2 = []
-		for song in playlist_tuple:
-			playlist_tuple_2.append(tuple(reversed(song)))
-			#print(playlist_tuple_2)
-			# -
-
-	
-	if ID == 0:
-		t = ""
-
-	#print(playlist_tuple_2)
-	#sys.exit('here')
-
-	songs_data = r'songs_data/'
-	all_songs_txt = songs_data+"all_songs"+t+".txt"
-
-	big_list = []
-
-	if not os.path.exists(songs_data):
-		os.makedirs(songs_data)
-
-	if not Path(all_songs_txt).exists():
-		open(all_songs_txt, 'a').close()
-	else:
-		
-		## READ existing list:
-		
-		with open(all_songs_txt, "rb") as fp:
-			for i in fp.readlines():
-				tmp = i.decode().split(",")
-				#print(tmp)
-				
-				#sys.exit()
-				## variation
-				if ID == True:
-					#print((tuple((tmp[0],tmp[1],tmp[2][:-2]))))
-					big_list.append(tmp[0]) 
-					#### developing HERE !! Saturday Night. 11.10 --> solved
-
-				else:
-					big_list.append(tuple((tmp[0], tmp[1][1:][:-2])))
-				#print(big_list)
-
-	if ID == True:
-		index_2_delete = check_duplicates(playlist_tuple_2, big_list,ID=1)
-		#print(playlist_tuple_2)
-		#print(index_2_delete)
-
-		if len(index_2_delete) == len(playlist_tuple_2):
-			print("====>"+colored("All the songs in this playlist were already in all_songs"+t+".txt",'cyan'))
-			return
-
-		
-		elif len(index_2_delete) != 0:
-			for indx in index_2_delete[::-1]:
-				#print(playlist_tuple_2)
-				#print(index_2_delete)
-				#print(playlist_tuple_2[indx])
-				del playlist_tuple_2[indx]
-				#sys.exit(playlist_tuple_2)
-		
-		
-		for elem in playlist_tuple_2:
-			#
-			if type(elem[0]) == type(1.0):
-				pass
-			else:
-				line = elem[0]+', '+elem[1]+', '+elem[2]+' \n'
-				print(" + + + + + + + + THIS IS THE LINE TO BE WRITTEN + + + + + + + + + + +")
-				print(colored(line,'blue'))
-				#sys.exit('debugging')
-				with open(all_songs_txt, "a") as file:
-					file.write(line)
-
-	else:
-		index_2_delete = check_duplicates(playlist_tuple,big_list,ID=0)
-
-		if len(index_2_delete) == len(playlist_tuple):
-			print("====>"+colored("All the songs in this playlist were already in all_songs.txt",'cyan'))
-			return 
-
-
-		elif len(index_2_delete) != 0:
-			for indx in index_2_delete[::-1]:
-				del playlist_tuple[indx]
-
-			
-		for elem in playlist_tuple:
-			line = elem[0]+", "+elem[1]+" \n"
-			print(" + + + + + + + +/ THIS IS THE LINE TO BE WRITTEN /+ + + + + + + + + +")
-			print(colored(line,'blue'))
-			with open(all_songs_txt, "a") as file:
-				file.write(line)
-
-
-
-
-def check_duplicates(playlist_tuple,big_list,ID):
-	l_indx = []
-
-	for index, elem in enumerate(playlist_tuple):
-		if ID==1:
-			song_id = elem[0]
-			song_name = elem[1]
-			artist_name = elem[2]
-			#print(song_id)
-			#print(song_name)
-			#print(artist_name)
-
-			if song_id in big_list:
-				l_indx.append(index)
-				#print('DUPLICATE:')
-				#print(colored("--->",'red')+" "+song_id+", "+song_name+", "+artist_name)
-
-		else:
-			artist = elem[0]
-			song   = elem[1]
-
-
-			#print(artist+", "+song)
-
-		
-			if elem in big_list:
-				l_indx.append(index)
-				#print('DUPLICATE:')
-				#print(colored("--->",'red')+" "", "+song+", "+artist)
-
-	#print(l_indx)
-	return l_indx
-
-
-def get_all_songs():
+def get():
 
 	songs_data = r'songs_data/'
 	all_songs_txt = songs_data+"all_songs.txt"
@@ -321,7 +52,7 @@ def popular_pl():
 
 	# 
 	## DEVELOPING:
-	'''
+	## PRE get followeres
 	for user in os.listdir(path_RES):
 		if user.startswith('.'):
 			pass
@@ -340,8 +71,8 @@ def popular_pl():
 					del pl_list[i]
 
 			get_followers(user, days, pl_list)
-	'''
-
+	
+	## PREPARE PLAYLISTS TO INSPECT by Popularity
 	path_2_inspect = r'pl_to_inspect/'
 	for user in listdir(path_2_inspect):
 		if user.startswith('.'):
@@ -357,10 +88,11 @@ def popular_pl():
 				pl_list = pl_list[0]
 
 				for pl in pl_list:
-					
-					get_songs(user, pl)
+					if len(pl)==0 or pl.startswith('.'):
+						pass
+					else:
+						get_songs(user, pl)
 
-	#sys.exit()
 
 def get_songs(user,pl):
 	print(user[:-4])
@@ -371,9 +103,7 @@ def get_songs(user,pl):
 
 	for day in listdir(path_RES+user):
 		if not day.startswith('.'):
-			#print(day)
-
-			
+			#print(day)			
 			#print(pl)
 			#print(day)
 			#print(user)
@@ -386,51 +116,22 @@ def get_songs(user,pl):
 			print(" ***** PLAYLIST = "+colored(pl,'green')+" *****")
 			print(path_2_day)
 			
+			try:
+				data = pd.read_csv(PATH+path_RES+path_2_day,header=0)
+				df = data[['Song2','Artist1','Song1','Preview_URL']]
 
-			data = pd.read_csv(PATH+path_RES+path_2_day,header=0)
+				print(df)
+				pl_setlist(user,pl,df)
 
-
-			df = data[['Song2','Artist1','Song1','Preview_URL']]
-
-			print(df)
-			write_pl_songlist(user,pl,df)
-			sys.exit()
-			#song_names   = data.Song1.values.tolist()
-			#artist_names = data.Artist1.values.tolist()
-			#song_ids     = data.Song2.values.tolist()
-			#download_link= data.Preview_URL.values.tolist()
-
-			#print(song_names)
-			#print(artist_names)
-			#print(song_ids)
-			#print(download_link)
-			
+			except FileNotFoundError:
+				print('Error: Could not find '+colored(path_2_day,'red'))
 
 			
-			## i'm going to write a TSV file so no check for commas is needed
-			'''
-			for counter, song_name in enumerate(song_names):
-				if "," in song_name:
-					#print(song_name)
-					#print(colored("HERE",'blue'))
-					song_names[counter] = song_name.replace(',',' ')
 
-			for counter, artist_name in enumerate(artist_names):
-				if "," in artist_name:
-					artist_names[counter] = artist_name.replace(",",' ')
-			'''
+def pl_setlist(user,pl,df):
 
-			#song_names.pop(0)
-			#artist_names.pop(0)
-			#song_ids.pop(0)
-			#download_link.pop(0)
-			#sys.exit()
-
-
-def write_pl_songlist(user,pl,df):
-
-	path_2_playlist_songlist = r'pl_songslist/'
-	path = path_2_playlist_songlist+user+'/'
+	path_2_playlist_setlist = r'pl_setlist/'
+	path = path_2_playlist_setlist+user+'/'
 	#print(os.path)
 	if not os.path.exists(path):
 		os.makedirs(path)
@@ -438,9 +139,38 @@ def write_pl_songlist(user,pl,df):
 	file = Path(PATH+path+pl+'.tsv')
 	#print(file)
 	if not file.exists():
-		df.to_csv(path+pl+'.tsv',index=False,sep='\t')
+		df.to_csv(file,index=False,sep='\t')
+
+	else:
+		print(file)
+		read = pd.read_csv(file,sep='\t')
+		# dropping ALL duplicte values 
+		
+		
+		result_df = pd.concat([read,df]).drop_duplicates().reset_index(drop=True)
+		# droping duplicates
+
+		result_df.to_csv(file,sep='\t',index=False)
+
+	print(' -> done with setlist: '+ pl +' by '+user+' \n ')
+	
+	write_all_songs(user,pl,df)
 
 
+
+def write_all_songs(user,pl,df):
+	
+	all_songs_file = Path(r'songs_data/all_songs.tsv')
+	if not all_songs_file.exists():
+		df.to_csv(all_songs_file,index=False,sep='\t')
+	
+	else:
+		read = pd.read_csv(all_songs_file,sep='\t')
+
+		result_df = pd.concat([read,df]).drop_duplicates().reset_index(drop=True)
+		
+		result_df.to_csv(all_songs_file,sep='\t',index=False)
+		
 
 
 def get_followers(user,days,pl_list):
@@ -518,7 +248,7 @@ def get_followers(user,days,pl_list):
 		pl_follow_avrg.append(temp_tuple)
 
 		
-	
+		## This is not finished:
 
 		#print(days_column)
 		#print(popularity_column)
@@ -572,9 +302,6 @@ def pl_to_inspect(user,pl_follow_avrg):
 def init():
 
 	popular_pl()
-
-	# input these popular playlist to write these files:
-	write_all_songs()
 	
 	#get_all_songs()   ## gathers all the data of the songs of the popular playlists! 
 
@@ -582,78 +309,3 @@ def init():
 init()
 
 
-
-
-
-''' vvv---> these are the rests <---vvv '''
-'''	for elem in playlist_tuple:
-	print(elem)
-
-		if len(big_list) == 0:
-			print(colored('all_songs.txt appears to be empty!','magenta'))
-		
-
-			line = elem[0]+", "+elem[1]+" \n"
-			print(line)
-			with open(all_songs_txt, "a") as file:
-				file.write(line)
-'''
-'''
-	for elem in playlist_tuple:
-		big_list.append(elem)
-		big_set = set([i for i in big_list])
-
-	for elem in big_set:
-		line = elem[0]+", "+elem[1]+" \n"
-		print(" + + + + + + + + THIS IS THE LINE TO BE WRITTEN + + + + + + + + + + +")
-		print(line)
-		with open(all_songs_txt, "a") as file:
-			file.write(line)
-'''
-'''
-		else:
-			for item in  big_list:
-				#print(item)
-				#print(type(item))
-
-				if elem[0] == item[0] and elem[1] == item[1]:
-			
-					print(" --------------- "+colored("this item was already in the list: ",'cyan')+" --------------- ")
-					print(elem[0])
-					print(elem[1])
-					print(item)
-					print(" --------------- ")
-
-					# delete elem from list
-					# playlist_tuple.remove(elem)
-					pass
-				
-			
-
-			line = elem[0]+", "+elem[1]+" \n"
-			print(" + + + + + + + + THIS IS THE LINE TO BE WRITTEN + + + + + + + + + + +")
-			print(line)
-			with open(all_songs_txt, "a") as file:
-				file.write(line)
-			pass
-
-	months = []
-	days   = []
-
-		for indx, elem in enumerate(days_column):
-			print(elem)
-			if elem == 'Days':
-				pass
-			else: 
-				tup = tuple(elem.split('_'))
-				month,day = elem.split('_')
-				#print(month)
-				#print(type(month))
-				months.append(month)
-				days.append(day)
-				months.sort()
-				days.sort()
-				print(months)
-				print(days)
-				sys.exit('DAAA')
-'''
