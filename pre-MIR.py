@@ -4,6 +4,7 @@ from pathlib import Path
 import urllib
 from termcolor import colored
 import numpy as np
+import collections
 import sys
 
 temp_path  = r'songs_data/temp/'
@@ -103,8 +104,11 @@ def init2():
 
 	PL_data = PATH+'PL_DATA/'
 
-	headers = ['Song_ID','spect_centroid_v' ,'rolloff85_mean', 'rolloff85_std','brightness_mean','brightness_std','spectralflux_mean','spectralflux_std','zerocross_rate','RMS_energy_mean','RMS_energy_std','lowenergy_v','tempo_v','pulseclarity_v','onsets_mean','onsets_std','onsets_peakpos','onsets_peakval','key_v' ,'key_mode_v' , 'ASR_v', 'mfcc_mean' ,'mfcc_std' ,'pitch_mean', 'pitch_std','event_dens_v', 'roughness_mean','roughness_std','cepstrum_mean','cepstrum_std','chroma_mean','chroma_std', 'key_st_mean','key_st_std','key_mode_v','ton_centroid_mean','ton_centroid_std']
+	headers = ['Song_ID','spect_centroid_v' ,'rolloff85_mean', 'rolloff85_std','brightness_mean','brightness_std','spectralflux_mean','spectralflux_std','zerocross_rate','RMS_energy_mean','RMS_energy_std','lowenergy_v','tempo_v','pulseclarity_v','onsets_mean','onsets_std','onsets_peakpos','onsets_peakval','key_v','ASR_v', 'mfcc_mean' , 'mfcc_std','pitch_mean', 'pitch_std','event_dens_v', 'roughness_mean','roughness_std', 'cepstrum_mean','cepstrum_std','chroma_mean','chroma_std','key_st_mean','key_st_std','key_mode_v','ton_centroid_mean','ton_centroid_std']
 
+	if len(set(headers))!=len(headers):
+		print([item for item, count in collections.Counter(headers).items() if count > 1])
+		sys.exit(print(colored('ERROR: duplicates in the headers','red')))
 
 	if not os.path.exists(PL_data):
 		os.makedirs(PL_data)
@@ -118,8 +122,8 @@ def init2():
 
 			###### 
 			#PL_data+user+'/'+pl+'/'
-			if not os.path.exists(PL_data+user+'/'+pl+'/'):
-				os.makedirs(PL_data+user+'/'+pl+'/')
+			if not os.path.exists(PL_data+user+'/'+pl[:-4]+'/'):
+				os.makedirs(PL_data+user+'/'+pl[:-4]+'/')
 
 			
 			
@@ -138,12 +142,14 @@ def init2():
 
 					## check if Audio Features already exist
 					## update
-					output_file = PL_data+user+'/'+pl+'/MIRaudio_features.tsv'
+					output_file = PL_data+user+'/'+pl[:-4]+'/MIRaudio_features.tsv'
 					try:
 						audio_features_df = pd.read_csv(output_file,sep='\t')
 						print(' Audio Features prior')
 						print(audio_features_df)
 						empty=False
+						if len(audio_features_df['Song_ID'])==0:
+							empty = True
 					except FileNotFoundError:
 						### WRITE DataFrame
 						print(colored(' File Not Found','red'))
@@ -170,14 +176,17 @@ def init2():
 						
 						print(' -- Audio Features --')
 						print(feat_)
+						print(len(feat_))
+						print('LEN Headers: '+str(len(headers)))
 						print(' --     (as DF)    --')
 
-						df = pd.DataFrame([feat_],columns= headers)
+						df = pd.DataFrame([feat_],columns=headers)
 						
 						print(df)
 						print(' --                --')
 						print(audio_features_df)
 						print('compare')
+						#sys.exit()
 						#frame = [audio_features_df,df]
 						#result_df = pd.concat(frame,sort=False).reset_index(drop=True)
 
@@ -185,7 +194,8 @@ def init2():
 						if empty== True:
 							audio_features_df = df
 						else:
-							audio_features_df.append(df,axis=0).reset_index(drop=True)
+							audio_features_df = pd.concat([audio_features_df,df],axis=0).drop_duplicates().reset_index(drop=True)
+ 
 
 					
 
