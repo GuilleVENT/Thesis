@@ -122,18 +122,7 @@ def init2():
 				os.makedirs(PL_data+user+'/'+pl+'/')
 
 			
-			## check if Audio Features already exist
-			## update
-			output_file = PL_data+user+'/'+pl+'/MIRaudio_features.tsv'
-			try:
-				audio_features_df = pd.read_csv(output_file,sep='\t')
-				print(' Audio Features prior')
-				print(audio_features_df)
-			except FileNotFoundError:
-				### WRITE DataFrame
-				print(colored(' File Not Found'),'red')
-				audio_features_df = pd.DataFrame(columns = headers)
-			######
+			
 		
 
 			setlist = pd.read_csv(file,sep='\t')
@@ -146,33 +135,61 @@ def init2():
 				song_link	= row['Preview_URL']
 				if song_link.startswith('https://'):
 
-					## download
-					download_30s(song_id,song_link)
-					##
-					name_mp3 = temp_path+song_id+'.mp3'
-					##  MATLAB
-					feat_vector = eng.features_ext_3(name_mp3)
-					##
-					#print(type(feat_vector))
-					feat_ = list(np.array(feat_vector._data))
-					#print(feat_)
-					feat_.insert(0, song_id)
+
+					## check if Audio Features already exist
+					## update
+					output_file = PL_data+user+'/'+pl+'/MIRaudio_features.tsv'
+					try:
+						audio_features_df = pd.read_csv(output_file,sep='\t')
+						print(' Audio Features prior')
+						print(audio_features_df)
+						empty=False
+					except FileNotFoundError:
+						### WRITE DataFrame
+						print(colored(' File Not Found','red'))
+						audio_features_df = pd.DataFrame(columns = headers)
+						empty=True
+						######
+
+					if song_id in audio_features_df['Song_ID'].tolist()	:
+						print(colored(song_id+' \n already in '+ output_file,'green'))
 					
-					print(' -- Audio Features --')
-					print(feat_)
-					print(' --     (as DF)    --')
 
-					df = pd.DataFrame([feat_],columns= headers)
+					else:
+						## download
+						download_30s(song_id,song_link)
+						##
+						name_mp3 = temp_path+song_id+'.mp3'
+						##  MATLAB
+						feat_vector = eng.features_ext_3(name_mp3)
+						##
+						#print(type(feat_vector))
+						feat_ = list(np.array(feat_vector._data))
+						#print(feat_)
+						feat_.insert(0, song_id)
+						
+						print(' -- Audio Features --')
+						print(feat_)
+						print(' --     (as DF)    --')
+
+						df = pd.DataFrame([feat_],columns= headers)
+						
+						print(df)
+						print(' --                --')
+						print(audio_features_df)
+						print('compare')
+						#frame = [audio_features_df,df]
+						#result_df = pd.concat(frame,sort=False).reset_index(drop=True)
+
+						#print(result_df)
+						if empty== True:
+							audio_features_df = df
+						else:
+							audio_features_df.append(df,axis=0).reset_index(drop=True)
+
 					
-					print(df)
-					print(' --                --')
 
-					result_df = pd.concat([audio_features_df,df]).drop_duplicates().reset_index(drop=True)
-					print(result_df)
-
-				
-
-					result_df.to_csv(output_file,sep='\t',index=False)
+						audio_features_df.to_csv(output_file,sep='\t',index=False)
 
 
 
