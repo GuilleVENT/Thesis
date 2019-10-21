@@ -233,7 +233,7 @@ def main_req_playlist(user, pl_id, pl_name, access_token):
 			if preview_url is None:
 				preview_url = "not available"
 
-			print(" - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -")
+			print(" - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -")
 
 			print(' # '+ str(position))
 			position_list.append(position)
@@ -259,7 +259,7 @@ def main_req_playlist(user, pl_id, pl_name, access_token):
 			print(' Preview:                '+ colored(preview_url,'cyan'))
 			print(" ")
 			preview_url_list.append(preview_url)
-			print(" - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -")
+			print(" - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -")
 
 			
 
