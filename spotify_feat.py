@@ -69,13 +69,13 @@ def init2():
 
 					else:
 						print(song_id)
-						features = req_spotify_song_features(song_id)
+						features_res = req_spotify_song_features(song_id)
 
-						print(features)
+						print(features_res)
 						if empty== True:
-							features_df = features
+							features_df = features_res
 						else:
-							features_df = pd.concat([features_df,df],axis=0).drop_duplicates().reset_index(drop=True)
+							features_df = pd.concat([features_df,features_res],axis=0).drop_duplicates().reset_index(drop=True)
 						features_df.to_csv(output_file,sep='\t',index=False)
 			else:
 				print('...')#think of something--> these pl cannot be analyzed
@@ -101,18 +101,25 @@ def req_spotify_song_features(song_id):
 	#print(data['audio_features'])
 	#sys.exit()
 	#list_of_dics = data['audio_features']
+	if data['audio_features']:
+		## 
+		## this is yet to be fixed
+		##
+		sys.exit('crash') 
+
 	dict_ = data['audio_features']
 
 	features_df = order_data(dict_)
 	print(features_df)
-	sys.exit()
+	
 
 	
-	return #nada
+	return features_df
 
 
-def order_data(dict_):
-	print("... PRIOR:")
+def order_data(dict_):																																					## change this vvv 
+	print("... PRIOR:")																																					## VV POS: 1 VVVVV 
+	headers = ['danceability','energy','key','loudness','mode','speechiness','acousticness','instrumentalness','liveness','valence','tempo','duration_ms','time_signature','Song_ID']
 	print(dict_)
 	#features_df = pd.DataFrame.from_dict(dict_)
 	
@@ -126,14 +133,17 @@ def order_data(dict_):
 
 	d = dict_[0]
 	d['Song_ID'] =   song_id
+	print(d)
 
-	res=d
-
-	print("... A POSTERIORI:")
-	print(res)
+	df = pd.DataFrame.from_dict([d])
 	
+	res = df
 
-	sys.exit()
+	#print("... A POSTERIORI:")
+	#print(res)
+
+
+	return res
 
 
 
