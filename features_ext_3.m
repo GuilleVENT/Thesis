@@ -34,14 +34,18 @@ end
 %% Only choose 30s of the Audio. This is the preset when downloading the Spotify Tracks, but a local (genre) library should be cut to 30s for fairness
 
 % song longer than 30s:
-if m > 1324153
+if m > 1343238 % = 30.4589s    [ 1324153 = 30.0261]
     disp('Song is longer than 30s')
     
     % trim start
-    y_mono(1:1323000) = [];
+    trim = 1323000;
+    y_mono(1:trim) = [];
     
     % trim end
-    y_mono(end-1323000:end) = [];
+    y_mono(1:end-trim) = [];
+    %disp(y_mono)
+    % one_liner
+    %y_mono = y_mono(trim+1 , end-trim)
     
     % result: song -30s at the beginning and -30s at the end 
     

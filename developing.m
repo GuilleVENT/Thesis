@@ -1,4 +1,4 @@
-file = 'test.mp3'
+file = 'TEMP.mp3'
 
 disp(file)
 % This function will calculate all features of a given song 
