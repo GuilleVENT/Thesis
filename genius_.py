@@ -1,10 +1,13 @@
-## imports
+# imports
 
 import os
 import requests
+from pathlib import Path
+import pandas as pd
 
 from termcolor import colored
 from bs4 import BeautifulSoup as bs
+import json as js
 
 import re
 
@@ -19,7 +22,6 @@ import sys
 clientID = "nirnV08m0NeV9MArdqmw01KngDBmnbfgfTdZTGJjtT0cV-ePMJTr2KFOIzEqvjAp"
 clientSecret = "MXT-mfboPvtY3K78B0r225-PyuiD5Ug9r5VzWtuuYXApECZ_-wJi73vsf28hC-7Cz-JpmE5BM4i2dBBR4zW6tw"
 token = "NdUWvm-oduXwnXgk5qKhszy6-3S534t93rDwdP2nqA9NynZllsBNBU9ByEUzqjBB"
-
 
 # TOKEN
 parameters = {'client_id':clientID,
@@ -104,7 +106,9 @@ def init(song_name, artist_name):
 
 	response = requests.get(search_url, params=search_data, headers=headers)
 	json = response.json()
-	print(json)
+	
+	#print(js.dumps(json, indent=2))
+	#sys.exit('json')
 
 	if len(json['response']['hits'])==0:
 		print(colored("No Success in Genius-API...",'red'))
@@ -116,19 +120,21 @@ def init(song_name, artist_name):
 		#retryed = True                                  ## !! DEVELOPING THIS IS AN ETERNAL LOOP
 		#retry(song_name,artist_name,album_name)
 
-		return('error')
+		return #None
 
+	## PATH__
 	path__ = "/"+artist_name.replace(" ", "-")+"-"+song_name.replace(" ", "-")+"-lyrics"
+	## PATH__ 
 
 	for hit in json['response']['hits']:
 
 		#### scraping debugging area ####
-		print("########## REQUEST RESULTS ##########")
+		#print("########## REQUEST RESULTS ##########")
 
-		print(hit['result'])
+		#print(hit['result'])
 
-		print("########## REQUEST RESULTS ##########")
-
+		#print("########## REQUEST RESULTS ##########")
+		#sys.exit()
 		song_title_hit        =     hit['result']['title']
 		song_title_w_feat_hit =     hit['result']['title_with_featured']
 
@@ -141,8 +147,8 @@ def init(song_name, artist_name):
 		#### scraping debugging area ####
 		
 
-		if artist_name.lower() in hit['result']['primary_artist']['name'].lower():
-
+		if artist_name.lower() in hit['result']['primary_artist']['name'].lower() and song_name.lower() in hit['result']['title']:
+			
 			print(colored("Success finding Song in Genius-API",'green'))
 			song_info = hit
 
@@ -164,8 +170,35 @@ def init(song_name, artist_name):
 
 
 		if path__.lower() in hit['result']['path'].lower():
+			print('YES - Path_')
 
 			print(colored("Success finding Song in Genius-API",'green'))
+			song_info = hit
+			print(hit)
+
+			song_api_path = song_info['result']['api_path']
+
+			## CALL FUNCTIONS
+
+			song_link = genius_API(song_api_path)
+
+			lyrics    = genius_PARSE(song_link)
+
+				
+
+			return(lyrics)
+			#print("type"+str(type(lyrics)))
+			#print(len(str(lyrics)))
+			#print(lyrics)
+
+			#lyrics_analysis(lyrics)
+
+			
+
+		print(hit['result']['full_title'].lower().split('by'))
+		
+		if song_name.lower() in hit['result']['full_title'].lower():
+			print('YES - SONG_NAME')
 			song_info = hit
 
 			song_api_path = song_info['result']['api_path']
@@ -183,32 +216,56 @@ def init(song_name, artist_name):
 			#lyrics_analysis(lyrics)
 
 			return(lyrics)
-
-		print(hit['result']['full_title'].lower().split('by'))
-		if song_name.lower() in hit['result']['full_title'].lower():
-			print('yes')
-			sys.exit()
 		
 def main(song_name,artist_name):
 	print("SONG:   "+ colored(song_name,'magenta'))
 	print("ARTIST: "+ colored(artist_name,'magenta'))
 
 	lyrics = init(song_name, artist_name)
+	#print(lyrics)
+
+	## read
+	no_lyrics_file = Path(r'lyrics/no_lyrics.tsv')
+	headers = ['SONG','ARTIST']
+
+	if not no_lyrics_file.exists():
+		no_lyrics_df = pd.DataFrame(columns = headers)
+	else:
+		# read
+		no_lyrics_df = pd.read_csv(no_lyrics_file,sep='\t')
+
+
+	try:
+
+		directory = r'lyrics/'+artist_name+'/'
+		if not os.path.exists(directory):
+			os.makedirs(directory)
+
+		'''
+		if lyrics == 'error':
+			print("NOT DEVELOPED YET")
+		'''
+
+		if "/" in song_name:
+			song_name = song_name.replace('/','-')
+		if "/" in artist_name:
+			artist_name = artist_name.replace('/'," ")
+
+		file = open(directory+song_name+'.txt','w') 
+		file.write(lyrics) 
+		file.close()
 	
-	directory = r'lyrics/'+artist_name+'/'
-	if not os.path.exists(directory):
-		os.makedirs(directory)
+	except TypeError:
+		print(' - Could not find lyrics to... ')
+		print("SONG:   "+ colored(song_name,'red'))
+		print("ARTIST: "+ colored(artist_name,'red'))
+		
+		df = pd.DataFrame([[song_name,artist_name]],index=None,columns=headers)
+		
+		result_df = pd.concat([no_lyrics_df,df],axis=0).drop_duplicates().reset_index(drop=True)
+		print(result_df)	
 
-	if lyrics == 'error':
-		print("NOT DEVELOPED YET")
-
-	if "/" in song_name:
-		song_name = song_name.replace('/','-')
-	if "/" in artist_name:
-		artist_name = artist_name.replace('/'," ")
-
-	file = open(directory+song_name+'.txt','w') 
-	file.write(lyrics) 
-	file.close()
+		result_df.to_csv(no_lyrics_file,sep='\t',index=False)
+		
 
 #main()
