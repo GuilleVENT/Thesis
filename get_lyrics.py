@@ -16,6 +16,17 @@ import urllib
 import sys
 
 
+
+
+PATH = os.path.dirname(os.path.abspath(__file__))+'/'
+
+path_2_allsongs = PATH+'songs_data/all_songs.tsv'
+
+path_2_lyrics = PATH+'lyrics/'
+
+
+
+### GENIUS DATA:
 ##########################################
 ############## access token ##############
 
@@ -50,7 +61,6 @@ headers = {'Authorization': 'Bearer '+token}
 ############## SONG INPUT ##############
 ########################################
 
-
 def genius_API(song_api_path):
 	#print(song_api_path)
 	song_api_url = genius_url+song_api_path
@@ -68,7 +78,7 @@ def genius_API(song_api_path):
 	print(colored(song_link,'magenta'))
 
 
-	return song_link
+	genius_PARSE(song_link)
 
 
 
@@ -93,7 +103,80 @@ def genius_PARSE(song_link):
 	return lyrics
 
 
-def init(song_name, artist_name):
+
+
+def init():
+
+	all_songs = pd.read_csv(path_2_allsongs,sep='\t')
+	
+	song_names = all_songs['Song1'].tolist()
+	artist_names = all_songs['Artist1'].tolist()
+
+	for index, song in enumerate(song_names):
+		artist = artist_names[index]
+		if song == 'Name':
+			pass
+
+		elif os.path.isfile(path_2_lyrics+artist+'/'+song+'.txt'):
+			pass
+		
+		else:
+			print(colored(' --->\n '+song+' by '+artist,'green'))
+			main(song,artist)
+
+
+
+
+
+def main(song_name,artist_name):
+	print("SONG:   "+ colored(song_name,'magenta'))
+	print("ARTIST: "+ colored(artist_name,'magenta'))
+
+	lyrics = call_genius(song_name, artist_name)
+	#print(lyrics)
+
+	## read
+	no_lyrics_file = Path(r'lyrics/no_lyrics.tsv')
+	headers = ['SONG','ARTIST']
+
+	if not no_lyrics_file.exists():
+		no_lyrics_df = pd.DataFrame(columns = headers)
+	else:
+		# read
+		no_lyrics_df = pd.read_csv(no_lyrics_file,sep='\t')
+
+
+	try:		## NOT TRY THIS... THIS CREATES EMPTY FILES... 
+
+		directory = r'lyrics/'+artist_name+'/'
+		if not os.path.exists(directory):
+			os.makedirs(directory)
+
+		if "/" in song_name:
+			song_name = song_name.replace('/','-')
+		if "/" in artist_name:
+			artist_name = artist_name.replace('/'," ")
+
+
+		file = open(directory+song_name+'.txt','w') 
+		file.write(lyrics) 
+		file.close()
+	
+	except TypeError: 		## 	TO DO : CHANGE
+		print(' - Could not find lyrics to... ')
+		print("SONG:   "+ colored(song_name,'red'))
+		print("ARTIST: "+ colored(artist_name,'red'))
+		
+		df = pd.DataFrame([[song_name,artist_name]],index=None,columns=headers)
+		
+		result_df = pd.concat([no_lyrics_df,df],axis=0).drop_duplicates().reset_index(drop=True)
+		print(result_df)	
+
+		result_df.to_csv(no_lyrics_file,sep='\t',index=False)
+		
+
+
+def call_genius(song_name, artist_name):
 
 	if '(' in song_name:
 		song_title_w_feat = song_name 
@@ -156,9 +239,8 @@ def init(song_name, artist_name):
 
 			## CALL FUNCTIONS
 
-			song_link = genius_API(song_api_path)
+			lyrics = genius_API(song_api_path)
 
-			lyrics 	  = genius_PARSE(song_link)
 			
 			#print("type"+str(type(lyrics)))
 			#print(len(str(lyrics)))
@@ -180,9 +262,7 @@ def init(song_name, artist_name):
 
 			## CALL FUNCTIONS
 
-			song_link = genius_API(song_api_path)
-
-			lyrics    = genius_PARSE(song_link)
+			lyrics = genius_API(song_api_path)
 
 				
 
@@ -216,56 +296,14 @@ def init(song_name, artist_name):
 			#lyrics_analysis(lyrics)
 
 			return(lyrics)
-		
-def main(song_name,artist_name):
-	print("SONG:   "+ colored(song_name,'magenta'))
-	print("ARTIST: "+ colored(artist_name,'magenta'))
-
-	lyrics = init(song_name, artist_name)
-	#print(lyrics)
-
-	## read
-	no_lyrics_file = Path(r'lyrics/no_lyrics.tsv')
-	headers = ['SONG','ARTIST']
-
-	if not no_lyrics_file.exists():
-		no_lyrics_df = pd.DataFrame(columns = headers)
-	else:
-		# read
-		no_lyrics_df = pd.read_csv(no_lyrics_file,sep='\t')
 
 
-	try:
+		else:
+			lyrics = 'error'
+			return(lyrics)
 
-		directory = r'lyrics/'+artist_name+'/'
-		if not os.path.exists(directory):
-			os.makedirs(directory)
 
-		'''
-		if lyrics == 'error':
-			print("NOT DEVELOPED YET")
-		'''
 
-		if "/" in song_name:
-			song_name = song_name.replace('/','-')
-		if "/" in artist_name:
-			artist_name = artist_name.replace('/'," ")
 
-		file = open(directory+song_name+'.txt','w') 
-		file.write(lyrics) 
-		file.close()
-	
-	except TypeError:
-		print(' - Could not find lyrics to... ')
-		print("SONG:   "+ colored(song_name,'red'))
-		print("ARTIST: "+ colored(artist_name,'red'))
-		
-		df = pd.DataFrame([[song_name,artist_name]],index=None,columns=headers)
-		
-		result_df = pd.concat([no_lyrics_df,df],axis=0).drop_duplicates().reset_index(drop=True)
-		print(result_df)	
 
-		result_df.to_csv(no_lyrics_file,sep='\t',index=False)
-		
-
-#main()
+init()
