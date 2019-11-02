@@ -77,12 +77,9 @@ def genius_API(song_api_path):
 	song_link = "http://wwww.genius.com"+html_url
 	print(colored(song_link,'magenta'))
 
+	print(" "+colored('LINK','blue')+" to parse")
+	print(song_link)
 
-	genius_PARSE(song_link)
-
-
-
-def genius_PARSE(song_link):
 	response = requests.get(song_link)
 
 	html = bs(response.text, "html.parser")
@@ -132,8 +129,6 @@ def main(song_name,artist_name):
 	print("SONG:   "+ colored(song_name,'magenta'))
 	print("ARTIST: "+ colored(artist_name,'magenta'))
 
-	lyrics = call_genius(song_name, artist_name)
-	#print(lyrics)
 
 	## read
 	no_lyrics_file = Path(r'lyrics/no_lyrics.tsv')
@@ -145,24 +140,38 @@ def main(song_name,artist_name):
 		# read
 		no_lyrics_df = pd.read_csv(no_lyrics_file,sep='\t')
 
+		LIST_song_names = no_lyrics_df['SONG'].tolist()
+		LIST_artist_names = no_lyrics_df['ARTIST'].tolist()
 
-	try:		## NOT TRY THIS... THIS CREATES EMPTY FILES... 
+		if song_name in LIST_song_names:
+			print(" Song:"+colored(song_name,'cyan'))
+			print(" "+colored('Lyrics could not be found previously','cyan'))
+			return ## quit main and pick next song
+
+
+	## call genius api and parse results:
+
+	lyrics = call_genius(song_name, artist_name)
+
+	if lyrics != 'error':
+		
+		if "/" in artist_name:
+			artist_name = artist_name.replace('/'," ")
 
 		directory = r'lyrics/'+artist_name+'/'
+		
 		if not os.path.exists(directory):
 			os.makedirs(directory)
 
 		if "/" in song_name:
 			song_name = song_name.replace('/','-')
-		if "/" in artist_name:
-			artist_name = artist_name.replace('/'," ")
-
+		
 
 		file = open(directory+song_name+'.txt','w') 
 		file.write(lyrics) 
 		file.close()
 	
-	except TypeError: 		## 	TO DO : CHANGE
+	else:		## 	lyrics == 'error'
 		print(' - Could not find lyrics to... ')
 		print("SONG:   "+ colored(song_name,'red'))
 		print("ARTIST: "+ colored(artist_name,'red'))
@@ -170,7 +179,7 @@ def main(song_name,artist_name):
 		df = pd.DataFrame([[song_name,artist_name]],index=None,columns=headers)
 		
 		result_df = pd.concat([no_lyrics_df,df],axis=0).drop_duplicates().reset_index(drop=True)
-		print(result_df)	
+		#print(result_df)
 
 		result_df.to_csv(no_lyrics_file,sep='\t',index=False)
 		
@@ -183,6 +192,16 @@ def call_genius(song_name, artist_name):
 		print(colored('song with parenthesis','red'))
 		song_name_ = re.sub(r'\([^)]*\)', '', song_name) ## featuring song-> artist name in parenthesis.
 		song_name = song_name_
+		print(' Tweaked song name:')
+		print(song_name)
+
+	if '-' in song_name: ## = radio edits // remixes - let's get OG
+		
+		song_name_ = song_name.split('-',1)
+		song_name = song_name_[0]
+		print(' Tweaked song name:')
+		print(song_name)
+
 
 	search_url = genius_url+'/search'
 	search_data = {'q': artist_name + song_name}
@@ -203,13 +222,13 @@ def call_genius(song_name, artist_name):
 		#retryed = True                                  ## !! DEVELOPING THIS IS AN ETERNAL LOOP
 		#retry(song_name,artist_name,album_name)
 
-		return #None
+		return 'error'
 
 	## PATH__
 	path__ = "/"+artist_name.replace(" ", "-")+"-"+song_name.replace(" ", "-")+"-lyrics"
 	## PATH__ 
 
-	for hit in json['response']['hits']:
+	for index, hit in enumerate(json['response']['hits']):
 
 		#### scraping debugging area ####
 		#print("########## REQUEST RESULTS ##########")
@@ -221,10 +240,10 @@ def call_genius(song_name, artist_name):
 		song_title_hit        =     hit['result']['title']
 		song_title_w_feat_hit =     hit['result']['title_with_featured']
 
-		print("########## SONG NAME ###########")
+		print("########## SONG NAME "+colored(str(index),'magenta')+" ###########")
 		print(colored(song_title_hit,'cyan'))
 		#print(song_title_w_feat_hit)
-		print('########## ARTIST NAME ##########')
+		print('########## ARTIST NAME '+colored(str(index),'magenta')+' ##########')
 		print(colored(hit['result']['primary_artist']['name'],'blue'))
 		print("\n")
 		#### scraping debugging area ####
@@ -241,66 +260,50 @@ def call_genius(song_name, artist_name):
 
 			lyrics = genius_API(song_api_path)
 
-			
-			#print("type"+str(type(lyrics)))
-			#print(len(str(lyrics)))
-			#print(lyrics)
-
-			#lyrics_analysis(lyrics)
-
 			return(lyrics)
-
-
-		if path__.lower() in hit['result']['path'].lower():
-			print('YES - Path_')
-
-			print(colored("Success finding Song in Genius-API",'green'))
-			song_info = hit
-			print(hit)
-
-			song_api_path = song_info['result']['api_path']
-
-			## CALL FUNCTIONS
-
-			lyrics = genius_API(song_api_path)
-
-				
-
-			return(lyrics)
-			#print("type"+str(type(lyrics)))
-			#print(len(str(lyrics)))
-			#print(lyrics)
-
-			#lyrics_analysis(lyrics)
-
-			
-
-		print(hit['result']['full_title'].lower().split('by'))
-		
-		if song_name.lower() in hit['result']['full_title'].lower():
-			print('YES - SONG_NAME')
-			song_info = hit
-
-			song_api_path = song_info['result']['api_path']
-
-			## CALL FUNCTIONS
-
-			song_link = genius_API(song_api_path)
-
-			lyrics    = genius_PARSE(song_link)
-				
-			#print("type"+str(type(lyrics)))
-			#print(len(str(lyrics)))
-			#print(lyrics)
-
-			#lyrics_analysis(lyrics)
-
-			return(lyrics)
-
 
 		else:
-			lyrics = 'error'
-			return(lyrics)
+			if path__.lower() in hit['result']['path'].lower():
+				print('YES - Path_')
+
+				print(colored("Success finding Song in Genius-API",'green'))
+				song_info = hit
+				print(hit)
+
+				song_api_path = song_info['result']['api_path']
+
+				## CALL FUNCTIONS
+
+				lyrics = genius_API(song_api_path)
+		
+				return(lyrics)
+
+
+
+			print(hit['result']['full_title'].lower().split('by'))
+		
+			if song_name.lower() in hit['result']['full_title'].lower():
+				print('YES - SONG_NAME')
+				song_info = hit
+
+				song_api_path = song_info['result']['api_path']
+
+				## CALL FUNCTIONS
+
+				lyrics = genius_API(song_api_path)
+
+				return(lyrics)
+
+			## more ideas?
+			else:
+				print(" ------------   FAIL  ------------- ")
+				print(json['response']['hits'])
+
+	## if non of the hits gave results write to tsv file no-lyrics
+	# 
+	return 'error'
+
+	
 
 
 
