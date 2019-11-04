@@ -141,9 +141,9 @@ def init():
 					artist_name = artist_name_
 
 					## check if LYRICS-file already exists:
-					path_ = path_2_lyrics+artist_name+'/'+song_name+'.txt'
+					path_2 = path_2_lyrics+artist_name+'/'+song_name+'.txt'
 
-					if os.path.isfile(path_) == False: 
+					if os.path.isfile(path_2) == False: 
 						print('- These lyrics were '+colored('not','red')+ ' downloaded before')
 						lyrics = call_genius(song_name, artist_name)
 
@@ -181,7 +181,7 @@ def init():
 
 					else:
 						print(colored('- These lyrics were already downloaded','green'))
-						lyrics_file = path_
+						lyrics_file = path_2
 
 						lyrics_analysis(lyrics_file)
 
@@ -201,16 +201,25 @@ def init():
 def lyrics_analysis(lyrics_file):
 
 	## have structure separated from lyrics!
-
 	lyrics, structure	 = 	L_analysis.get_lyrics_from_txt(lyrics_file)
-	
+	## to-do --> features of structure 
+	## count verses in each estrofa --> insides of the song's structure 
+	## DO THIS 05.11
+
+	## feature extraction: LANGUAGE   and  lang_mix (= if a song contains more than one language)
+	Lang, Lang_mix 		 =  L_analysis.get_language(lyrics)
+
+	## 
+
 	## text preprocessing
 	print("LYRICS TOKENIZATION...")
 	lyrics_tokens	 	 = 	L_analysis.text_preprocessing(lyrics)
+
+	rep, rep_100 		 =  L_analysis.repeated_words_feature(lyrics_tokens)
+
 	print(lyrics_tokens)
 							
-	## feature extraction: LANGUAGE   and  lang_mix (= if a song contains more than one language)
-	Lang, Lang_mix 		 =  L_analysis.get_language(lyrics)
+
 
 	## return data for DF 
 
