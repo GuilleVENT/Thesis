@@ -1,29 +1,25 @@
 import os
 import pandas as pd
+import re
 import sys
+
 from termcolor import colored
 
+## language detection
+from langdetect import detect
+import collections
+from itertools import dropwhile
 
 
+## text processing
+from nltk.stem import WordNetLemmatizer
 
 PATH = os.path.dirname(os.path.abspath(__file__))+'/'
 
 
+def get_lyrics_from_txt(file):
 
-# developing:
-# song hardcoded -
-def get_lyrics_n_structure(file):
-
-	## developing:
-	# song hardcoded -
-	path2song = PATH+'lyrics/Led Zeppelin/Black Dog - Remaster.txt'
-
-	## 											--> get_lyrics changes the names of the files to not contain "remaster"
-	
-
-
-
-	with open(path2song) as f:
+	with open(file) as f:
 		content = f.readlines()
 
 	lyrics = [x.strip() for x in content] ## each line is an element in a list
@@ -35,13 +31,101 @@ def get_lyrics_n_structure(file):
 			structure.append(line)
 			lyrics.remove(line)
 
-	print(lyrics)
-
+	print(" 	Song Structure: 	 \n 	")
 	print(structure)
 
+	return lyrics, structure 			### lyrics and *structure* !
+	
+
+
+def text_preprocessing(lyrics):		## lyrics == type: LIST OF VERSES! 
+
+	stemmer = WordNetLemmatizer()
+	new_lyrics = []
+
+	for line in lyrics:
+
+		# Remove all the special characters
+		new_line = re.sub(r'\W', ' ', str(line))
+		
+
+		# remove all single characters
+		new_line = re.sub(r'\s+[a-zA-Z]\s+', ' ', str(new_line))
+
+		# Substituting multiple spaces with single space
+		new_line = re.sub(r'\s+', ' ', new_line, flags=re.I)
+
+		# Removing prefixed 'b'
+		new_line = re.sub(r'^b\s+', '', new_line)
+
+		# Converting to Lowercase
+		new_line = new_line.lower()
+		
+		# Lemmatization
+		new_line = new_line.split()  	# we reduce the word into dictionary root form. For instance "cats" is converted into "cat". Lemmatization is done in order to avoid creating features that are semantically similar but syntactically different. For instance, we don't want two different features named "cats" and "cat", which are semantically similar, therefore we perform lemmatization.
+
+		document = [stemmer.lemmatize(word) for word in new_line]
+		document = ' '.join(document)
+		
+		new_lyrics.append(new_line)
+
+	
+	#print(new_lyrics)
+
+	return new_lyrics
 
 
 
+def get_language(lyrics): ## lyrics == type: LIST OF VERSES! 
+
+	#print(lyrics)
+	language = []
+	A = False 
+
+	for verse in lyrics:
+		if len(verse)==0 or 'instrumental' in verse.lower() :
+			pass
+		else:
+			A = True
+			lang = detect(verse)
+			language.append(lang)
+	
+
+
+	if A == True:
+		dict_ = collections.Counter(language)
+		print(dict_)
+
+		for key, count in dropwhile(lambda key_count: key_count[1] >= 2, dict_.most_common()):
+			del dict_[key]
+		print(dict_)
+		language = next(iter(dict_))
+		if len(dict_)>1:
+			lang_mix = 1 
+		else:
+			lang_mix = 0
+
+	else:
+		language = None
+		lang_mix = 0
+
+	return(language,lang_mix)
+
+
+## developing:
+# song hardcoded -	
+
+#path2song = PATH+'lyrics/Led Zeppelin/Black Dog - Remaster.txt'
+#with open(path2song) as f:
+#	content = f.readlines()
+
+
+
+
+
+
+
+'''
 def init():
 
 	
@@ -85,6 +169,29 @@ def init():
 				print(songs_list)
 				print(artists_list)
 
+				
+				for index, song in enumerate(songs_list):
+					change_names(song)
+
+				## from get_lyrics
+def change_names(song_name)
+
+		if '(' in song_name:
+			song_title_w_feat = song_name 
+			print(colored('song with parenthesis','red'))
+			song_name_ = re.sub(r'\([^)]*\)', '', song_name) ## featuring song-> artist name in parenthesis.
+			song_name = song_name_
+			print(' Tweaked song name:')
+			print(song_name)
+
+		if '-' in song_name: ## = radio edits // remixes - let's get OG
+		
+			song_name_ = song_name.split('-',1)
+			song_name = song_name_[0]
+			print(' Tweaked song name:')
+			print(song_name)
+'''
 
 
-init()
+# init()
+#get_lyrics_n_structure()
