@@ -10,9 +10,6 @@ import numpy as np
 
 
 
-
-import genius_
-
 from operator import itemgetter
 
 # global result directory of req_spotify.py
@@ -20,25 +17,6 @@ path_RES = r'user_PL/'
 
 PATH = os.path.dirname(os.path.abspath(__file__))+'/'
 
-
-def get():
-
-	songs_data = r'songs_data/'
-	all_songs_txt = songs_data+"all_songs.txt"
-
-	with open(all_songs_txt) as f:
-		lines = f.readlines()
-
-	#print(line)
-	#print(type(line))
-
-	for song in lines:
-		[artist_N, song_N] = song.split(',')
-		song_N = song_N[1:][:-2]
-		
-		print(song_N)
-		print(artist_N)
-		genius_.main(song_N,artist_N)
 
 
 ## This part first checks for the most popular playlists of each user 
