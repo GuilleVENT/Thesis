@@ -30,13 +30,18 @@ def get_lyrics_from_txt(file):
 		if line.startswith('['):
 			structure.append(line)
 			lyrics.remove(line)
+		'''
+		if len(line)==0:
+			lyrics.remove(line)
+		'''
 
-	print(" 	Song Structure: 	 \n 	")
+	print(" 	Song Structure: 	  	")
 	print(structure)
 
 	return lyrics, structure 			### lyrics and *structure* !
 	
-
+def structure_features():
+	pass
 
 def text_preprocessing(lyrics):		## lyrics == type: LIST OF VERSES! 
 
@@ -106,10 +111,11 @@ def get_language(lyrics): ## lyrics == type: LIST OF VERSES!
 			lang_mix = 0
 
 	else:
-		language = None
+		language = None ## instrumental exception
 		lang_mix = 0
 
-	return(language,lang_mix)
+	return(language,lang_mix)		## language is for now 'de'/'es'/'en' but this needs to be changed to numerical
+									## lang_mix is bool. it determines if a song contains more than one language
 
 
 ## developing:

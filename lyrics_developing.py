@@ -12,6 +12,7 @@ import urllib
 
 import L_analysis
 
+import genius_credentials
 
 import sys
 
@@ -25,41 +26,6 @@ path_2_allsongs = PATH+'songs_data/all_songs.tsv'
 path_2_lyrics = PATH+'lyrics/'
 
 
-
-### GENIUS DATA:
-##########################################
-############## access token ##############
-
-clientID = "nirnV08m0NeV9MArdqmw01KngDBmnbfgfTdZTGJjtT0cV-ePMJTr2KFOIzEqvjAp"
-clientSecret = "MXT-mfboPvtY3K78B0r225-PyuiD5Ug9r5VzWtuuYXApECZ_-wJi73vsf28hC-7Cz-JpmE5BM4i2dBBR4zW6tw"
-token = "NdUWvm-oduXwnXgk5qKhszy6-3S534t93rDwdP2nqA9NynZllsBNBU9ByEUzqjBB"
-
-# TOKEN
-parameters = {'client_id':clientID,
-			'redirect_uri':"http://localhost:8000/",
-			'scope':'',
-			'state':'1',
-			'response_type':"code"}
-
-genius_auth = "https://api.genius.com/oauth/authorize"
-
-
-genius_url = "http://api.genius.com"
-headers = {'Authorization': 'Bearer '+token}
-
-############## access token ##############
-##########################################
-
-
-# HARDCODED:
-########################################
-############## SONG INPUT ##############
-
-#song_name 	= "Bohemian Rhapsody"
-#artist_name = "Queen"
-
-############## SONG INPUT ##############
-########################################
 
 
 def init():
@@ -204,6 +170,8 @@ def lyrics_analysis(lyrics_file):
 	lyrics, structure	 = 	L_analysis.get_lyrics_from_txt(lyrics_file)
 	## to-do --> features of structure 
 	## count verses in each estrofa --> insides of the song's structure 
+	#L_analysis.structure_features(lyrics, structure)
+
 	## DO THIS 05.11
 
 	## feature extraction: LANGUAGE   and  lang_mix (= if a song contains more than one language)
@@ -215,7 +183,7 @@ def lyrics_analysis(lyrics_file):
 	print("LYRICS TOKENIZATION...")
 	lyrics_tokens	 	 = 	L_analysis.text_preprocessing(lyrics)
 
-	rep, rep_100 		 =  L_analysis.repeated_words_feature(lyrics_tokens)
+	#rep, rep_100 		 =  L_analysis.repeated_words_feature(lyrics_tokens)
 
 	print(lyrics_tokens)
 							
@@ -261,18 +229,31 @@ def tweak_names(song_name,artist_name):
 
 def call_genius(song_name, artist_name):
 
-
+	token = genius_credentials.get_token()
+	headers = {'Authorization': 'Bearer '+token}	
+	genius_url = "http://api.genius.com"
 	search_url = genius_url+'/search'
-	search_data = {'q': artist_name + song_name}
 
-	response = requests.get(search_url, params=search_data, headers=headers)
-	json = response.json()
+
+	query = song_name + " " + artist_name
+	#print(query.encode('utf-8'))
+	search_data = {'q': query.encode('utf-8')} ## mal - corregir
+
+	print(search_data)
+
+	try:
+		response = requests.get(search_url, params=search_data, headers=headers)
+	except:
+		call_genius(song_name, artist_name) ## retry...
+	#json = response.json()
 	
+	## debugging:
+	#print(" Search Request json Result: ")
 	#print(js.dumps(json, indent=2))
 	#sys.exit('json')
 
 	if len(json['response']['hits'])==0:
-		print(colored("No Success in Genius-API...",'red'))
+		print(colored("No Success in Genius...",'red'))
 		print("SONG NAME   :                "+song_name)
 		print("ARTIST NAME :                "+artist_name)
 
@@ -305,46 +286,52 @@ def call_genius(song_name, artist_name):
 
 		if artist_name.lower() in hit['result']['primary_artist']['name'].lower() and song_name.lower() in hit['result']['title']:
 			
-			print(colored("Success finding Song in Genius-API",'green'))
-			song_info = hit
+			print(colored("Success finding Song in Genius",'green'))
+			print(" Method: "+colored('Double-Match','magenta'))
 
-			song_api_path = song_info['result']['api_path']
 
 			## CALL FUNCTIONS
+			try:
+				url = hit['result']['url']
+				lyrics = genius_scrape(url)
 
-			lyrics = genius_API(song_api_path)
+			except: ## in case of errors scraping. Let's keep using the API:
+				song_api_path = hit['result']['api_path']
+				lyrics = genius_API(song_api_path)
 
 			return(lyrics)
 
 		else:
 			if path__.lower() in hit['result']['path'].lower():
-				print('YES - Path_')
-
-				print(colored("Success finding Song in Genius-API",'green'))
-				song_info = hit
-				print(hit)
-
-				song_api_path = song_info['result']['api_path']
+				print(colored("Success finding Song in Genius",'green'))
+				print(" Method: "+colored('Path_','magenta'))
+		
 
 				## CALL FUNCTIONS
+				try:
+					url = hit['result']['url']
+					lyrics = genius_scrape(url)
 
-				lyrics = genius_API(song_api_path)
+				except:
+					song_api_path = hit['result']['api_path']
+					lyrics = genius_API(song_api_path)
 		
 				return(lyrics)
 
 
 
-			print(hit['result']['full_title'].lower().split('by'))
+			#print(hit['result']['full_title'].lower().split('by'))
 		
 			if song_name.lower() in hit['result']['full_title'].lower():
-				print('YES - SONG_NAME')
-				song_info = hit
-
-				song_api_path = song_info['result']['api_path']
-
+				print(colored("Success finding Song in Genius",'green'))
+				print(" Method: "+colored('Path_','magenta'))
 				## CALL FUNCTIONS
-
-				lyrics = genius_API(song_api_path)
+				try:
+					url = hit['result']['url']
+					lyrics = genius_scrape(url)
+				except:
+					song_api_path = hit['result']['api_path']
+					lyrics = genius_API(song_api_path)
 
 				return(lyrics)
 
@@ -358,25 +345,9 @@ def call_genius(song_name, artist_name):
 	# 
 	return 'error'
 
-
-def genius_API(song_api_path):
-	#print(song_api_path)
-	song_api_url = genius_url+song_api_path
-	print(song_api_url)
-
-	response = requests.get(song_api_url,headers=headers)
-
-	json = response.json()
-
-	#print(json)
-
-	html_url = json['response']['song']['path']
-	print(colored(genius_url+html_url,'cyan'))
-	song_link = "http://wwww.genius.com"+html_url
-	print(colored(song_link,'magenta'))
-
-	print(" "+colored('LINK','blue')+" to parse")
-	print(song_link)
+def genius_scrape(song_link):
+	print("	This is based on web-scraping.\n 	URL: ")
+	print(colored(song_link,'green'))
 
 	response = requests.get(song_link)
 
@@ -398,11 +369,45 @@ def genius_API(song_api_path):
 	return lyrics
 
 
+def genius_API(song_api_path):
+	token = genius_credentials.get_token()
+	headers = {'Authorization': 'Bearer '+token}
+	genius_url = "http://api.genius.com"
+
+	#print(song_api_path)
+	song_api_url = genius_url+song_api_path
+	print(song_api_url)
+
+	response = requests.get(song_api_url,headers=headers)
+
+	json = response.json()
+
+	#print(json)
+
+	html_url = json['response']['song']['path']
+	print(colored(genius_url+html_url,'cyan'))
+	song_link = "http://wwww.genius.com"+html_url
+	print(colored(song_link,'magenta'))
+
+	lyrics = genius_scrape(song_link)
+
+	return lyrics
+
+
 
 init()
 
 
+## debugging GENIUS:
+# HARDCODED:
+########################################
+############## SONG INPUT ##############
 
+#song_name 	= "Purple Rain"
+#artist_name = "Prince"
 
+############## SONG INPUT ##############
+########################################
 
+#call_genius(song_name,artist_name)
 
