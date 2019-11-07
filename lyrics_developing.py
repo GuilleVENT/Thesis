@@ -149,13 +149,12 @@ def init():
 						print(colored('- These lyrics were already downloaded','green'))
 						lyrics_file = path_2
 
-						lyrics_analysis(lyrics_file)
-
-						print("--->"+str(path_))
 						print(user)
 						print(pl[:-4])
 						print(song_name)
 						print(artist_name)
+
+						lyrics_analysis(lyrics_file)
 
 						## check if line in dataframe exists.
 
@@ -168,11 +167,12 @@ def lyrics_analysis(lyrics_file):
 
 	## have structure separated from lyrics!
 	lyrics, structure	 = 	L_analysis.get_lyrics_from_txt(lyrics_file)
+	print(lyrics)
 	## to-do --> features of structure 
 	## count verses in each estrofa --> insides of the song's structure 
 	#L_analysis.structure_features(lyrics, structure)
 
-	## DO THIS 05.11
+	## DO THIS 
 
 	## feature extraction: LANGUAGE   and  lang_mix (= if a song contains more than one language)
 	Lang, Lang_mix 		 =  L_analysis.get_language(lyrics)
@@ -180,10 +180,14 @@ def lyrics_analysis(lyrics_file):
 	## 
 
 	## text preprocessing
-	print("LYRICS TOKENIZATION...")
+	print(" LYRICS TOKENIZATION...")
 	lyrics_tokens	 	 = 	L_analysis.text_preprocessing(lyrics)
 
-	#rep, rep_100 		 =  L_analysis.repeated_words_feature(lyrics_tokens)
+	shortest_verse_len, longest_verse_len, avrg_verse_length	=  L_analysis.get_lengths(lyrics_tokens)
+
+	stopwords_100 		 = L_analysis.get_stopWords(lyrics_tokens,Lang)
+
+	rep, rep_100 		 =  L_analysis.repeated_words_feature(lyrics_tokens)
 
 	print(lyrics_tokens)
 							
@@ -201,7 +205,6 @@ def tweak_names(song_name,artist_name):
 		song_name = song_name_
 		A = True
 		
-
 	if '/' in song_name:
 		song_name.replace('/',' ')
 		A = True
@@ -211,7 +214,6 @@ def tweak_names(song_name,artist_name):
 		A = True
 
 	if '-' in song_name: ## = radio edits // remixes - let's get OG
-		
 		song_name_ = song_name.split('-',1)
 		song_name = song_name_[0]
 		A = True
@@ -225,7 +227,7 @@ def tweak_names(song_name,artist_name):
 		print(song_name)
 
 	return song_name, artist_name
-					
+
 
 def call_genius(song_name, artist_name):
 
@@ -243,14 +245,19 @@ def call_genius(song_name, artist_name):
 
 	try:
 		response = requests.get(search_url, params=search_data, headers=headers)
+		print(response.status_code)
 	except:
+		print(response.status_code)
 		call_genius(song_name, artist_name) ## retry...
-	#json = response.json()
+	
+
+	json = response.json()
 	
 	## debugging:
 	#print(" Search Request json Result: ")
 	#print(js.dumps(json, indent=2))
 	#sys.exit('json')
+
 
 	if len(json['response']['hits'])==0:
 		print(colored("No Success in Genius...",'red'))
@@ -324,7 +331,7 @@ def call_genius(song_name, artist_name):
 		
 			if song_name.lower() in hit['result']['full_title'].lower():
 				print(colored("Success finding Song in Genius",'green'))
-				print(" Method: "+colored('Path_','magenta'))
+				print(" Method: "+colored('Song Name','magenta'))
 				## CALL FUNCTIONS
 				try:
 					url = hit['result']['url']
@@ -395,7 +402,10 @@ def genius_API(song_api_path):
 
 
 
-init()
+#init()
+
+lyrics_analysis('/Users/guillermoventuramartinezAIR/Desktop/FP/lyrics/The Clash/Should I Stay or Should I Go .txt')
+
 
 
 ## debugging GENIUS:

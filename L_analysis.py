@@ -12,7 +12,11 @@ from itertools import dropwhile
 
 
 ## text processing
+import nltk
 from nltk.stem import WordNetLemmatizer
+from nltk.corpus import stopwords
+#nltk.download('stopwords')
+
 
 PATH = os.path.dirname(os.path.abspath(__file__))+'/'
 
@@ -42,6 +46,59 @@ def get_lyrics_from_txt(file):
 	
 def structure_features():
 	pass
+
+
+def get_lengths(lyrics_tokens):
+	#
+	#print(lyrics_tokens)
+	# not unnesting (verses == sentence)
+	
+	## delete empty rows:
+	#print('-- -- -- -- -- -- -- --')
+	lyrics_tokens = list(filter(None, lyrics_tokens))
+
+	#print(lyrics_tokens)
+
+	shortest_verse 		= min(lyrics_tokens, key=len)
+	shortest_verse_len 	= len(shortest_verse)
+
+	print(' Shortest Verse:')
+	print(shortest_verse)
+	print(shortest_verse_len)
+
+
+	longest_verse  		= max(lyrics_tokens, key=len)
+	longest_verse_len 	= len(longest_verse)
+
+	print(' Longest Verse:')
+	print(longest_verse)
+	print(longest_verse_len)
+
+	verse_length = []
+	for verse in lyrics_tokens:
+		verse_length.append(len(verse))
+	#print(verse_length)
+	avrg_verse_length = float(sum(verse_length)/len(verse_length))
+	print(' Avrg Verse Length:')
+	print(avrg_verse_length)
+
+	return(shortest_verse_len, longest_verse_len, avrg_verse_length)
+
+
+def get_repetitions():
+	## unnesting lyrics:
+	lyrics_tokens = sum(lyrics_tokens,[])
+
+	rep = []
+	for word in song:
+		if word not in rep:
+			rep.append(word)
+
+	##compare results
+
+
+
+
 
 def text_preprocessing(lyrics):		## lyrics == type: LIST OF VERSES! 
 
@@ -79,6 +136,73 @@ def text_preprocessing(lyrics):		## lyrics == type: LIST OF VERSES!
 
 	return new_lyrics
 
+def get_stopWords(lyrics_tokens,language):
+
+	## NLTK StopWords available in 
+	'''
+	['hungarian',
+	 'swedish',
+	 'kazakh',
+	 'norwegian',
+	 'finnish',
+	 'arabic',
+	 'indonesian',
+	 'portuguese',
+	 'turkish',
+	 'azerbaijani',
+	 'slovene',
+	 'spanish',
+	 'danish',
+	 'nepali',
+	 'romanian',
+	 'greek',
+	 'dutch',
+	 'tajik',
+	 'german',
+	 'english',
+	 'russian',
+	 'french',
+	 'italian']
+ 	'''
+	if language == 'en':
+		stopWords = set(stopwords.words('english'))
+	elif language == 'es':
+		stopWords = set(stopwords.words('spanish'))
+	elif language == 'de':
+		stopWords = set(stopwords.words('german'))
+	elif language == 'du':
+		stopWords = set(stopwords.words('dutch'))
+	elif language == 'ru':
+		stopWords = set(stopwords.words('russian'))
+	elif language == 'it':
+		stopWords = set(stopwords.words('italian'))
+	elif language == 'fr':
+		stopWords = set(stopwords.words('french'))
+	elif language == 'no':
+		stopWords = set(stopwords.words('norwegian'))
+	elif language == 'sw':
+		stopWords = set(stopwords.words('sweedish'))
+	elif language == 'ar':
+		stopWords = set(stopwords.words('arabic'))
+	else:
+		return 0 ## instrumental 
+
+	#print(lyrics_tokens)
+	# unnesting verses and estrofas
+	lyrics_tokens = sum(lyrics_tokens,[])
+	#print(lyrics_tokens)
+
+	stopwords_x = []
+
+	for word in lyrics_tokens:
+		if word in stopWords:
+			stopwords_x.append(word)
+
+	stopWords_100 =len(stopwords_x) / len(lyrics_tokens) * 100
+	
+	print(" - % of stopwords ")
+	print(stopWords_100) ## porcentage of stop words
+	return stopWords_100
 
 
 def get_language(lyrics): ## lyrics == type: LIST OF VERSES! 
@@ -99,7 +223,7 @@ def get_language(lyrics): ## lyrics == type: LIST OF VERSES!
 
 	if A == True:
 		dict_ = collections.Counter(language)
-		print(dict_)
+		#print(dict_)
 
 		for key, count in dropwhile(lambda key_count: key_count[1] >= 2, dict_.most_common()):
 			del dict_[key]
