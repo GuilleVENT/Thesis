@@ -33,13 +33,13 @@ def init():
 	path_2_setlist = PATH+'pl_setlist/'
 	PL_data = PATH+'PL_DATA/'
 
-	headers = ['Song_ID','Language','...']
+	#headers = ['Song_ID','Language','...']
 
 	for user in os.listdir(path_2_setlist):
 		
 		## developing:
 		## user hardcoded	
-		#if user == 'topsify':
+		if user == 'topsify':
 
 			path_ = path_2_setlist+user+'/'
 			for pl in os.listdir(path_):
@@ -69,7 +69,7 @@ def init():
 				except FileNotFoundError:
 					### WRITE DataFrame
 					print(colored(' File Not Found','red'))
-					features_df = pd.DataFrame(columns = headers)
+					features_df = pd.DataFrame()
 					empty=True
 					######
 
@@ -110,6 +110,7 @@ def init():
 
 					if os.path.isfile(path_2) == False: 
 						print('- These lyrics were '+colored('not','red')+ ' downloaded before')
+						
 						lyrics = call_genius(song_name, artist_name)
 
 						if lyrics != 'error':
@@ -134,11 +135,23 @@ def init():
 							## instantly read this file for analysis!
 							lyrics_file = PATH+'lyrics/'+artist_name+'/'+song_name+'.txt'
 
-							lyrics_analysis(lyrics_file)
-							
-							#sys.exit('success') ## start lyrics analysis function. These are the inputs. 
-							## prepare Dataframe before! 
-							## this is for appending line to lyrics dataframe
+							song_lyricsDF = lyrics_analysis(lyrics_file)
+							## check if line in dataframe exists.
+														## ID 
+							a = pd.DataFrame([song_id],columns=['Song_ID'])
+							b = pd.concat([a,song_lyricsDF], axis=1,sort=True)
+							'''
+							with pd.option_context('display.max_rows', None, 'display.max_columns', None):  # more options can be specified also
+								print(b)
+							'''
+
+							features_df = features_df.append(b)
+						
+							with pd.option_context('display.max_rows', None, 'display.max_columns', None):  # more options can be specified also
+								print(features_df)
+											
+								## prepare Dataframe before! 
+								## this is for appending line to lyrics dataframe
 
 						else: 	# lyrics == 'error'
 							print('error-passing')
@@ -158,9 +171,23 @@ def init():
 						#print(song_name)
 						#print(artist_name)
 
-						lyrics_analysis(lyrics_file)
+						song_lyricsDF =lyrics_analysis(lyrics_file)
 
 						## check if line in dataframe exists.
+													## ID 
+						a = pd.DataFrame([song_id],columns=['Song_ID'])
+						b = pd.concat([a,song_lyricsDF], axis=1,sort=True)
+						'''
+						with pd.option_context('display.max_rows', None, 'display.max_columns', None):  # more options can be specified also
+							print(b)
+						'''
+
+						features_df = features_df.append(b)
+					
+						with pd.option_context('display.max_rows', None, 'display.max_columns', None):  # more options can be specified also
+							print(features_df)
+					
+							
 
 						## read file 
 						## call analysis 
@@ -171,33 +198,56 @@ def lyrics_analysis(lyrics_file):
 
 	## have structure separated from lyrics!
 	lyrics, structure	 = 	L_analysis.get_lyrics_from_txt(lyrics_file)
-	#print(lyrics)
-	## to-do --> features of structure 
+	df = pd.DataFrame({})
+	## 
 	## count verses in each estrofa --> insides of the song's structure 
-	L_analysis.structure_features(lyrics, structure)
+	structure_df = L_analysis.structure_features(lyrics, structure)
+	df = df.append([structure_df])
 
 	## 
 	## these are 4 features for the Lyrics DF
-	total_num_estrofas, max_verses_per_estrofa, min_verses_per_estrofa, avg_verses_per_estrofa,verses_per_estrofa = L_analysis.get_estrofas(lyrics, structure)
+	estrofas_df = L_analysis.get_estrofas(lyrics, structure)
+	df = pd.concat([df,estrofas_df.reindex(df.index)], axis=1)
 	
-	shortest_verse_len, longest_verse_len, avrg_verse_length	=  L_analysis.get_lengths(lyrics)	
+
 	
+	verse_df	=  L_analysis.get_lengths(lyrics)	
+	df  = pd.concat([df,verse_df.reindex(df.index)],axis=1)
+
+
 	## feature extraction: LANGUAGE   and  lang_mix (= if a song contains more than one language)
-	Lang, Lang_mix 		 =  L_analysis.get_language(lyrics)
+	language_df,Lang		=  L_analysis.get_language(lyrics)
+	df 	= pd.concat([df,language_df.reindex(df.index)], axis=1)
+
+	repetitions_df   = L_analysis.get_repetitions(lyrics)
+	df = pd.concat([df,repetitions_df.reindex(df.index)],axis=1)
 
 	## text preprocessing
-	print(" LYRICS TOKENIZATION...")
-	lyrics_tokens	 	 = 	L_analysis.text_preprocessing(lyrics)
-	total_num_words = L_analysis.get_words(lyrics_tokens,Lang)
+	if Lang == 'en':
+		print(" LYRICS TOKENIZATION...")
+		lyrics_tokens	 		 = 	L_analysis.text_preprocessing(lyrics)
+
+		words_df			  	 =  L_analysis.get_words(lyrics_tokens,Lang)
+		df = pd.concat([df,words_df.reindex(df.index)], axis=1)
+		
+		stopwords_100_df 		 = L_analysis.get_stopWords(lyrics_tokens,Lang)
+		df = pd.concat([df,words_df.reindex(df.index)], axis=1)
 
 
+	else:
+		print(" LYRICS TOKENIZATION...")
+		print(' - Language is not English...')
+		lyrics_tokens	 	 = 	L_analysis.text_preprocessing(lyrics)
 
-	stopwords_100 		 = L_analysis.get_stopWords(lyrics_tokens,Lang)
-
-	#L_analysis.get_repetitions(lyrics_tokens)
+		words_df 	 		 =  L_analysis.get_words(lyrics_tokens,Lang)
+		df = pd.concat([df,words_df.reindex(df.index)], axis=1)
+		
+		stopwords_100_df 	 = L_analysis.get_stopWords(lyrics_tokens,Lang)
+		df = pd.concat([df,stopwords_100_df.reindex(df.index)], axis=1)
 	
-							
-
+	with pd.option_context('display.max_rows', None, 'display.max_columns', None):  # more options can be specified also
+		print(df)
+	return df
 
 	## return data for DF 
 

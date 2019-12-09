@@ -17,7 +17,7 @@ import nltk
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
 
- 
+
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 #nltk.download('stopwords')
@@ -26,6 +26,10 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from PIL import Image
 from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
 import matplotlib.pyplot as plt
+
+## my own dictionaries
+import get_vocabulary
+
 
 
 PATH = os.path.dirname(os.path.abspath(__file__))+'/'
@@ -51,13 +55,15 @@ def get_lyrics_from_txt(file):
 			lyrics.remove(line)
 		'''
 
-	print(" 	Song Structure: 	  	")
-	print(structure)
+	#print(" 	Song Structure: 	  	")
+	#print(structure)
 
 	return lyrics, structure 			### lyrics and *structure* !
 
 
 def get_estrofas(lyrics,structure):
+	#print(lyrics)
+
 	total_num_estrofas = len(structure)  # == lyrics.count('')-1
 	
 	## cleaning...
@@ -70,85 +76,205 @@ def get_estrofas(lyrics,structure):
 		except IndexError:
 			i+=1
 	
-	## count "" strategy. That's why doble (or tripple spaces needed to be cleaned
+	## count "" strategy. That's why doble (or tripple) "spaces-lines" needed to be cleaned
 
 	verses_per_estrofa = []
 	counter = 0
+	indx = 0 ## i think this will solve the bug of: SONG:   Space Cadet 			ARTIST: Philanthrope
+
 	for indx,verse in enumerate(lyrics):
+		#print(indx)
+		#print(verse)
+		
 		if verse == '':
 			counter = 0 # reset
+			#print('reset')
 		else:
 			counter += 1
+			#print('+')
 		try:
 			if lyrics[indx+1] == '':
 				verses_per_estrofa.append(counter)
 		except IndexError:
-			verses_per_estrofa.append(counter)
+			pass
+		#idx+=1
 
-	verses_per_estrofa.pop()
+	#print(verses_per_estrofa)
+	if verses_per_estrofa[:-1]==0:
+		verses_per_estrofa.pop()
+
+	if len(verses_per_estrofa)>15:
+		verses_per_estrofa=verses_per_estrofa[:15]
+	
+	try:
+		min_verses_per_estrofa = min(verses_per_estrofa)
+		max_verses_per_estrofa = max(verses_per_estrofa)
+		avg_verses_per_estrofa = float(sum(verses_per_estrofa)/len(verses_per_estrofa))
+	except:
+		min_verses_per_estrofa = float('NaN')
+		max_verses_per_estrofa = float('NaN')
+		avg_verses_per_estrofa = float('NaN')
+
 	print(' - Verses Per Estrofa:')
 	print(verses_per_estrofa)
+	
+	## for DF formatting reasons:
+	while len(verses_per_estrofa) < 15:
+		verses_per_estrofa.append(0)
+		indx += 1
+
+	
+
+
 	print(' - Shortest Estrofa length:')
-	min_verses_per_estrofa = min(verses_per_estrofa)
 	print(min_verses_per_estrofa)
 	print(' - Longest Estrofa length:')
-	max_verses_per_estrofa = max(verses_per_estrofa)
 	print(max_verses_per_estrofa)
 	print(' - Average number of Verses per Estrofa')
-	avg_verses_per_estrofa = float(sum(verses_per_estrofa)/len(verses_per_estrofa))
 	print(avg_verses_per_estrofa)
 
-	return total_num_estrofas, max_verses_per_estrofa, min_verses_per_estrofa, avg_verses_per_estrofa, verses_per_estrofa
 
+
+
+	# not returning this "verses_per_estrofa" ->type = list
+	#return total_num_estrofas, max_verses_per_estrofa, min_verses_per_estrofa, avg_verses_per_estrofa, verses_per_estrofa
+	'''
+	df_res0 = pd.DataFrame([verses_per_estrofa],columns=['E01','E02','E03','E04','E05','E06','E07','E08','E09','E10','E11','E12','E13','E14','E15'])
+	#print(df_res0)
+	df_res1 = pd.DataFrame(data=[[total_num_estrofas, max_verses_per_estrofa, min_verses_per_estrofa, avg_verses_per_estrofa]],columns=['total_num_estrofas','max_verses_per_estrofa','min_verses_per_estrofa','avg_verses_per_estrofa'])
+	#print(df_res1)
+
+	#df_res = df_res1.append([df_res0])
+	df_res = pd.concat([df_res0,df_res1.reindex(df_res0.index)], axis=1)
+	'''
+	return verses_per_estrofa, min_verses_per_estrofa, max_verses_per_estrofa, avg_verses_per_estrofa, total_num_estrofas
 	
 def structure_features(lyrics,structure):
-	
-	#print(structure)
-	print(' - - - - - - - ')
-	file = PATH+"structural_analysis.tsv"
-	
-	if os.path.isfile(file):
-		struct_df = pd.read_csv(file)
-	else:
-		struct_df = pd.DataFrame(columns = ['Structure','Artist','Duet'])#empty
-	
-	for part in structure:
-		
-		#print(part)
-		part = part[1:][:-1]
 
-		if ':' in part:
-			splitted = part.split(':',1)
-			
-			part   = splitted[0]
-			artists = splitted[1]
+	parts = []
+	indx = 0
+	if len(structure) != 0:
+		for indx, part in enumerate(structure):
+			if indx < 15:
+				if 'intro' in part.lower():
+					print(1.0)
+					parts.append(1.0)
+				elif 'verse' in part.lower():
+					int_ = detect_number(part.lower())
+					print(2.0+int_/10)
+					parts.append(2.0+int_/10)
+				elif 'chorus' in part.lower():
+					if 'pre' in part.lower():
+						print(3.1)
+						parts.append(3.1)
+					else:
+						print(3.0)
+						parts.append(3.0)
+				elif 'bridge' in part.lower():
+					print(4.0)
+					parts.append(4.0)
+				elif 'refrain' in part.lower():
+					if 'pre' in part.lower():
+						print(5.1)
+						parts.append(5.1)
+					else:
+						print(5.0)
+						parts.append(5.0)
+				elif 'couplet' in part.lower():
+					print(6.0)
+					parts.append(6.0)
+				elif 'interlude' in part.lower():
+					print(7.0)
+					parts.append(7.0)
+				elif 'drop' in part.lower():
+					if 'pre' in part.lower():
+						print(8.1)
+						parts.append(8.1)
+					else:
+						print(8.0)
+						parts.append(8.0)
+				elif 'hook' in part.lower():
+					if 'pre' in part.lower():
+						print(9.1)
+						parts.append(9.1)
+					else:
+						print(9.0)
+						parts.append(9.0)
+				elif 'break' in part.lower():
+					print(10.0)
+					parts.append(10.0)
+				elif 'solo' in part.lower():
+					if 'guitar' in part.lower():
+						print(11.1)
+						X = 11.1
+					if 'bass' in part.lower():
+						print(11.2)
+						X = 11.2
+					if 'key' or 'piano' in part.lower():
+						print(11.3)
+						X = 11.3
+					if 'drum' in part.lower():
+						print(11.4)
+						X = 11.4
+					else:
+						print(11.5)
+						X = 11.5
+					parts.append(X)
+				elif 'instr' in part.lower():
+					print(11.0)
+					parts.append(11.0)
+				elif 'outro' in part.lower():
+					print(12.0) 
+					parts.append(12.0)
+				else:
+					print(13.0) # = other
+					parts.append(13.0) ## other mala suerte 
+					
+		while indx < 14:
+			parts.append(0.0)
+			indx += 1
 
-			if ',' in artists or '&' in artists:
-				duet = True
+		duet_ = []
+		for part in structure:
+			if ':' in part:
+				splitted = part.split(':',1)
+				
+				part   = splitted[0]
+				artists = splitted[1]
+
+				if ',' in artists or '&' in artists:
+					duet = True
+					duet_.append(duet)
+				else:
+					duet = False	
+					duet_.append(duet)
 			else:
-				duet = False	
+				artists = '-'
+				duet = False
+				duet_.append(duet)
+
+		if any(x == True for x in duet_):
+			DUET = 1
 		else:
-			artists = '-'
-			duet = False
+			DUET = 0
+		
+		
+		#print(parts)
 
-		if any(str(num) in part for num in list(range(1,10))): 	## number of verse [or other]
-				#print(part)
-				part_ = part[:-2] 	## this only works on nums < 9 (einstellig)
-				part = part_
-				#print(part)
+		#print(DUET)
 
-		di = {'Duet':duet,'Artist':artists,'Structure':part}
-		d = pd.DataFrame([di])
-		#print(d)
-		if part not in struct_df['Structure'].tolist():
-			struct_df = pd.concat([struct_df,d]).drop_duplicates().reset_index(drop=True)
+		#print(parts)
+		'''
+		df_res = pd.DataFrame([parts],columns=['P01','P02','P03','P04','P05','P06','P07','P08','P09','P10','P11','P12','P13','P14','P15','Duet'])
+		print(df_res)
+		'''
+		return parts,DUET
 
-	
-	## file to be written (pretty)
-	struct_df.drop(struct_df.columns[struct_df.columns.str.contains('unnamed',case = False)],axis = 1, inplace = True)
-	#print(struct_df)
-	struct_df.to_csv(file)
-	
+	else:
+		print('	No structure available... writing NaNs')
+		return([float('NaN'),float('NaN'),float('NaN'),float('NaN'),float('NaN'),float('NaN'),float('NaN'),float('NaN'),float('NaN'),float('NaN'),float('NaN'),float('NaN'),float('NaN'),float('NaN'),float('NaN')],0)
+
+
 
 def word_cloud(file_name,lyrics): ## 
 	if type(lyrics)==list:
@@ -183,69 +309,111 @@ word_cloud('purple_rain.png',lyrics)
 
 def get_words(lyrics_,Lang):
 	print('.........')
-	lyrics = list(filter(None, lyrics_)) ## unnest 
+	lyrics = list(chain(*lyrics_)) ## unnest 
 
 	print(lyrics)
-	sum_ = 0
-	for verse in lyrics:
-		words = verse.split()
-		#print(words)
-		sum_ = sum_ + len(words)
+
+	sum_ = len(lyrics)
 	print('- Total Number of words:')
 	print(sum_)
 
 	if Lang != 'en':
-		return sum_ ## , , ,  append to this NaNs
+
+		return(sum_,float('NaN'),float('NaN'),float('NaN'),float('NaN'))
+		
 	
-	else:
-
+	else: ## lang == 'en'
 		## "BAG OF WORDS" APPROACH
+		pop_words = get_vocabulary.of_pop()
+		pop_count = 0
+		metal_words = get_vocabulary.of_metal()
+		metal_count = 0
+		happy_words = get_vocabulary.happy()
+		happy_count = 0 
+		hiphop_words = get_vocabulary.hiphop_slang()
+		hiphop_count = 0
+		
+		##	TO DO :
+		##	Sad words dictionary
+		##
 
-		return sum_
+		for i, word in enumerate(lyrics):
+			#print(i)
+			#print(word)
+			if word in pop_words:
+				#print('POP')
+				#print(word)
+				pop_count += 1
+			if word in metal_words:
+				#print('METAL')
+				#print(word)
+				metal_count += 1 
+			if word in happy_words:
+				#print('HAPPY')
+				#print(word)
+				happy_count += 1
+			if word in hiphop_words:
+				#print('HIPHOP')
+				#print(word)
+				hiphop_count += 1
+
+		pop_100 = float(pop_count / sum_)
+		metal_100 = float(metal_count / sum_)
+		happy_100 = float(happy_count / sum_)
+		hiphop_100 = float(hiphop_count / sum_)
+		
+		print(' - - - - - - word class - - - - - - ')
+		print('POP  % :\n'+str(pop_100))
+		print('METAL %  :\n'+str(metal_100))
+		print('HAPPY % : \n'+ str(happy_100))
+		print('HIPHOP % : \n'+str(hiphop_100))
+		print(' - - - - - - word class - - - - - - ')
+
+		#df_res = pd.DataFrame([[sum_,pop_100,metal_100,happy_100,hiphop_100]],columns=['Total_Words','Pop_words_100','Metal_words_100','happy_words_100','Hiphop_words_100'])
+
+		return sum_,pop_100,metal_100,happy_100,hiphop_100
 	
 
 def get_lengths(lyrics):			
 	#
-	#print(lyrics_tokens)
-	#sys.exit()
-	# not unnesting (verses == sentence)
-	
-	## delete empty rows:
-	#print('-- -- -- -- -- -- -- --')
 	lyrics_tokens = list(filter(None, lyrics))
 
-	#print(lyrics_tokens)
-	#print('here')
-	#print(len(lyrics_tokens))
-	#sys.exit(' This decision should be explained...')
+	try:
 
-	#print(lyrics_tokens)
+		## shortest 
+		shortest_verse 		= min(lyrics_tokens, key=len)
+		shortest_verse_len 	= len(shortest_verse)
+
+		print(' Shortest Verse Length:')
 	
-	shortest_verse 		= min(lyrics_tokens, key=len)
-	shortest_verse_len 	= len(shortest_verse)
-
-	print(' Shortest Verse:')
-	print(shortest_verse)
-	print(shortest_verse_len)
 	
 
-	longest_verse  		= max(lyrics_tokens, key=len)
-	longest_verse_len 	= len(longest_verse)
+		print(shortest_verse_len)
+		
+		## longest
 
-	print(' Longest Verse:')
-	print(longest_verse)
-	print(longest_verse_len)
+		longest_verse  		= max(lyrics_tokens, key=len)
+		longest_verse_len 	= len(longest_verse)
 
-	verse_length = []
-	for verse in lyrics_tokens:
-		verse_length.append(len(verse))
-	#print(verse_length)
-	avrg_verse_length = float(sum(verse_length)/len(verse_length))
-	print(' Avrg Verse Length:')
-	print(avrg_verse_length)
+		print(' Longest Verse Length:')
 
-	return(shortest_verse_len, longest_verse_len, avrg_verse_length)
+	
+		print(longest_verse_len)
+		verse_length = []
+		for verse in lyrics_tokens:
+			verse_length.append(len(verse))
+		#print(verse_length)
+		avrg_verse_length = float(sum(verse_length)/len(verse_length))
+		print(' Avrg Verse Length:')
+		print(avrg_verse_length)
 
+	except:		## this is the case for instrumental songs 
+		shortest_verse_len = 0
+		longest_verse_len = 0
+		avrg_verse_length = 0  
+
+	#df_res = pd.DataFrame([[shortest_verse_len, longest_verse_len, avrg_verse_length]],columns=['shortest_verse_len', 'longest_verse_len', 'avrg_verse_length'])
+	return shortest_verse_len, longest_verse_len, avrg_verse_length
 
 def get_repetitions(song):
 	## unnesting lyrics:
@@ -258,40 +426,43 @@ def get_repetitions(song):
 			if verse in seen:
 				count=count+1
 			else:
-				print(" - Verse:")
-				print(verse)
+				#print(" - Verse:")
+				#print(verse)
 				seen.append(verse)
 
 	#print(seen)
 	#print(len(seen))
 	#print(len(song))
-	print(" - Number of identical verses:")
-	print(count)
-	
 	Num_repeated_verses = count
+	print(" - Number of identical verses:")
+	print(Num_repeated_verses)
 
-	repetitions = set(list(chain(*song)))	## a set of an unnested list (song is devided in verses[list->elem=verse]) (= a set of all the words in the song)
-
-
-	print(song)
-	print(repetitions)
-
-	print(" - Len:")
-	print(len(list(chain(*song))))
-	print(len(repetitions))
+	# reset seen:
+	seen = []
+	counter = 0
+	for verse in song:
+		if len(verse) == 0:
+			pass 
+		else:
+			for word in verse.split(' '):
+				counter += 1
+				if word not in seen:
+					if word.endswith(',') or word.endswith('.') or word.endswith(';') or word.endswith('?') or word.endswith('!'):
+						word[:-1]
+					#print(word)
+					seen.append(word)
 	
-	sys.exit(len(list(chain(*song))))
+	
+	if counter == 0:
+		repe_100 = 0
+	else:
+		repe_100 = float(len(seen)/counter)*100
 
 	print(" - Porcentage of repeated words:")
-	repe_100 = float(len(repetitions)/len(list(chain(*song))))*100
 	print(repe_100)
-	#sys.exit('aqui')
+	
+	#return(pd.DataFrame([[repe_100, Num_repeated_verses]],columns=['Repetition_100','Repeated Verses']))
 	return repe_100, Num_repeated_verses
-
-
-
-	##compare results
-
 
 def text_preprocessing(lyrics):		## lyrics == type: LIST OF VERSES! 
 
@@ -374,12 +545,12 @@ def get_stopWords(lyrics_tokens,language):
 		stopWords = set(stopwords.words('french'))
 	elif language == 'no':
 		stopWords = set(stopwords.words('norwegian'))
-	elif language == 'sw':
-		stopWords = set(stopwords.words('sweedish'))
+	#elif language == 'sw':
+	#	stopWords = set(stopwords.words('sweedish'))
 	elif language == 'ar':
 		stopWords = set(stopwords.words('arabic'))
 	else:
-		return 0 ## instrumental 
+		return(float('NaN'))
 
 	#print(lyrics_tokens)
 	# unnesting verses and estrofas
@@ -396,45 +567,88 @@ def get_stopWords(lyrics_tokens,language):
 	
 	print(" - % of stopwords ")
 	print(stopWords_100) ## porcentage of stop words
-	return stopWords_100
+	
+	return(stopWords_100)
 
 
 def get_language(lyrics): ## lyrics == type: LIST OF VERSES! 
+	try:
+		#print(lyrics)
+		language = []
 
-	#print(lyrics)
-	language = []
-	A = False 
-
-	for verse in lyrics:
-		if len(verse)==0 or 'instrumental' in verse.lower() :
-			pass
-		else:
-			A = True
-			lang = detect(verse)
-			language.append(lang)
-	
-
-
-	if A == True:
+		for verse in lyrics:
+			if len(verse)==0:
+				pass
+			elif 'instrumental' in verse.lower():
+				pass
+			else:
+				try:
+					lang = detect(verse)
+					language.append(lang)
+				except:
+					lang = 'ff'
+					language.append(lang)
+		#print(language)
 		dict_ = collections.Counter(language)
-		#print(dict_)
-
-		for key, count in dropwhile(lambda key_count: key_count[1] >= 2, dict_.most_common()):
-			del dict_[key]
 		print(dict_)
-		language = next(iter(dict_))
-		if len(dict_)>1:
-			lang_mix = 1 
+		language = dict_.most_common(1)[0][0]
+
+		language_encoded = numerical_language(language)
+
+
+
+		## this is to get if there are two languages used in the songs
+		lang_top2 = dict_.most_common(2)
+		print(lang_top2)
+		if len(lang_top2)==2:
+			lan1 = lang_top2[0][0] 
+			lan2 = lang_top2[1][0]
+			if lan1 and lan2 in ['es','en','de','fr','sw','ru','ar','du','no','it']:
+				## amount of verses the second most used language is used:
+				if lang_top2[1][1] > len(lyrics)*0.05: ## thershold: must surpase 5% of the song length 
+					lang_mix = 1
+				else:
+					lang_mix = 0
+			else:
+				lang_mix = 0
 		else:
 			lang_mix = 0
 
-	else:
-		language = None ## instrumental exception
-		lang_mix = 0
-
-	return(language,lang_mix)		## language is for now 'de'/'es'/'en' but this needs to be changed to numerical
+		return language_encoded,lang_mix,language		## numerical encoding
 									## lang_mix is bool. it determines if a song contains more than one language
+	except:
+		return(0,float('NaN'),float('NaN'))
 
+def numerical_language(lang):
+	if lang == 'en':
+		return 1
+	if lang == 'de':
+		return 2
+	if lang == 'es':
+		return 3
+	if lang == 'du':
+		return 4
+	if lang == 'ru':
+		return 5
+	if lang == 'it':
+		return 6
+	if lang == 'fr':
+		return 7
+	if lang == 'no':
+		return 8
+	if lang == 'ar':
+		return 9
+	if lang == 'sw':
+		return 10 
+
+
+def detect_number(verse):
+	try:
+		i_ = int(re.search(r'\d+', verse).group())
+	except AttributeError:
+		i_ = 0.1
+
+	return i_
 
 ## developing:
 # song hardcoded -	
@@ -442,6 +656,11 @@ def get_language(lyrics): ## lyrics == type: LIST OF VERSES!
 #path2song = PATH+'lyrics/Led Zeppelin/Black Dog - Remaster.txt'
 #with open(path2song) as f:
 #	content = f.readlines()
+
+#tontofile= '/Users/guillermoventuramartinezAIR/Desktop/FP/lyrics/Lil Dicky/Earth.txt'
+#l,s=get_lyrics_from_txt(tontofile)
+#get_estrofas(l,s)
+#structure_features(l,s)
 
 
 
@@ -514,6 +733,61 @@ def change_names(song_name)
 			song_name = song_name_[0]
 			print(' Tweaked song name:')
 			print(song_name)
+
+def structure_features_OLD(lyrics,structure):
+	
+	#print(structure)
+	print(' - - - - - - - ')
+	file = PATH+"structural_analysis.tsv"
+	duet_ = []
+	
+	if os.path.isfile(file):
+		struct_df = pd.read_csv(file)
+	else:
+		struct_df = pd.DataFrame(columns = ['Structure','Artist','Duet'])#empty
+	
+	for part in structure:
+		
+		#print(part)
+		part = part[1:][:-1]
+
+		if ':' in part:
+			splitted = part.split(':',1)
+			
+			part   = splitted[0]
+			artists = splitted[1]
+
+			if ',' in artists or '&' in artists:
+				duet = True
+				duet_.append(duet)
+			else:
+				duet = False	
+				duet_.append(duet)
+		else:
+			artists = '-'
+			duet = False
+			duet_.append(duet)
+
+		if any(str(num) in part for num in list(range(1,10))): 	## number of verse [or other]
+				#print(part)
+				part_ = part[:-2] 	## this only works on nums < 9 (einstellig)
+				part = part_
+				#print(part)
+
+		di = {'Duet':duet,'Artist':artists,'Structure':part}
+		d = pd.DataFrame([di])
+		#print(d)
+		if part not in struct_df['Structure'].tolist():
+			struct_df = pd.concat([struct_df,d]).drop_duplicates().reset_index(drop=True)
+
+	
+	## file to be written (pretty)
+	struct_df.drop(struct_df.columns[struct_df.columns.str.contains('unnamed',case = False)],axis = 1, inplace = True)
+	#print(struct_df)
+	struct_df.to_csv(file)
+
+
+
 '''
 
 
