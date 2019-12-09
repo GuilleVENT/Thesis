@@ -28,13 +28,13 @@ def init():
 
 	path_2_lyrics = PATH+'lyrics/'
 
-	headers = ['Song_ID','Duet','E01','E02','E03','E04','E05','E06','E07','E08','E09','E10','E11','E12','E13','E14','E15','Hiphop_words_100','Lang_MIX','Language','Metal_words_100','P01','P02','P03','P04','P05','P06','P07','P08','P09','P10','P11','P12','P13','P14','P15','Pop_words_100','Repeated_Verses','Repetition_100','StopWord_100','Total_Words','avg_verses_per_estrofa','avrg_verse_length','happy_words_100','longest_verse_len','max_verses_per_estrofa','min_verses_per_estrofa','shortest_verse_len','total_num_estrofas']
+	headers = ['Song_ID','Duet','Hiphop_words_100','Metal_words_100','Pop_words_100','happy_words_100','StopWord_100','Total_Words','Lang_MIX','Language','Repeated_Verses','Repetition_100','avg_verses_per_estrofa','avrg_verse_length','longest_verse_len','max_verses_per_estrofa','min_verses_per_estrofa','shortest_verse_len','total_num_estrofas','E01','E02','E03','E04','E05','E06','E07','E08','E09','E10','E11','E12','E13','E14','E15','P01','P02','P03','P04','P05','P06','P07','P08','P09','P10','P11','P12','P13','P14','P15']
 
 	for user in os.listdir(path_2_setlist):
 		
 		## developing:
 		## user hardcoded	
-		if user == 'spotify':
+		#  if user == 'spotify':
 
 			path_ = path_2_setlist+user+'/'
 			for pl in os.listdir(path_):
@@ -145,7 +145,7 @@ def init():
 
 								song_lyricsDF = lyrics_analysis(song_id, lyrics_file, headers)
 
-								append_row_to_DF(song_lyricsDF,lyrics_features_df,output_file)
+								append_row_to_DF(song_lyricsDF,output_file)
 
 
 							else: 	# lyrics == 'error'
@@ -214,32 +214,9 @@ def lyrics_analysis(song_id, lyrics_file, headers):
 def create_song_lyricsDF(song_id, parts, duet,verses_per_estrofa, min_verses_per_estrofa, max_verses_per_estrofa, avg_verses_per_estrofa, shortest_verse_len, longest_verse_len, avrg_verse_length, language_encoded,lang_mix,language, repe_100, Num_repeated_verses,sum_,pop_100,metal_100,happy_100,hiphop_100,stopWords_100, total_num_estrofas, headers):
 	
 	'''
-	print(type(song_id))
-	print(type(parts))
-	print(len(parts))
-	print(type(duet))
-	print(type(verses_per_estrofa))
-	print(len(verses_per_estrofa))
-	print(type(min_verses_per_estrofa))
-	print(type(max_verses_per_estrofa))
-	print(type(avg_verses_per_estrofa))
-	print(type(shortest_verse_len))
-	print(type(longest_verse_len))
-	print(type(avrg_verse_length))
-	print(type(language_encoded))
-	print(type(lang_mix))
-	print(type(language))
-	print(type(repe_100))
-	print(type(Num_repeated_verses))
-	print(type(sum_))
-	print(type(pop_100))
-	print(type(metal_100))
-	print(type(hiphop_100))
-	print(type(stopWords_100))
-
-	sys.exit()
+	headers = ['Song_ID','Duet','Hiphop_words_100','Metal_words_100','Pop_words_100','happy_words_100','StopWord_100','Total_Words','Lang_MIX','Language','Repeated_Verses','Repetition_100','avg_verses_per_estrofa','avrg_verse_length','longest_verse_len','max_verses_per_estrofa','min_verses_per_estrofa','shortest_verse_len','total_num_estrofas','E01','E02','E03','E04','E05','E06','E07','E08','E09','E10','E11','E12','E13','E14','E15','P01','P02','P03','P04','P05','P06','P07','P08','P09','P10','P11','P12','P13','P14','P15']
 	'''
-	
+
 	indx = len(parts)
 	while indx<15:
 		parts.append(0)
@@ -250,58 +227,55 @@ def create_song_lyricsDF(song_id, parts, duet,verses_per_estrofa, min_verses_per
 		verses_per_estrofa.append(0)
 		indx += 1
 
-	#headers = ['Song_ID','Duet','E01','E02','E03','E04','E05','E06','E07','E08','E09','E10','E11','E12','E13','E14','E15','Hiphop_words_100','Lang_MIX','Language','Metal_words_100','P01','P02','P03','P04','P05','P06','P07','P08','P09','P10','P11','P12','P13','P14','P15','Pop_words_100','Repeated_Verses','Repetition_100','StopWord_100','Total_Words','avg_verses_per_estrofa','avrg_verse_length','happy_words_100','longest_verse_len','max_verses_per_estrofa','min_verses_per_estrofa','shortest_verse_len','total_num_estrofas']
-
-
 	DICT = {headers[0]: [song_id],
 			headers[1]: [duet],
-			headers[2]: [verses_per_estrofa[0]],
-			headers[3]: [verses_per_estrofa[1]],
-			headers[4]: [verses_per_estrofa[2]],
-			headers[5]: [verses_per_estrofa[3]],
-			headers[6]: [verses_per_estrofa[4]],
-			headers[7]: [verses_per_estrofa[5]],
-			headers[8]: [verses_per_estrofa[6]],
-			headers[9]: [verses_per_estrofa[7]],
-			headers[10]: [verses_per_estrofa[8]],
-			headers[11]: [verses_per_estrofa[9]],
-			headers[12]: [verses_per_estrofa[10]],
-			headers[13]: [verses_per_estrofa[11]],
-			headers[14]: [verses_per_estrofa[12]],
-			headers[15]: [verses_per_estrofa[13]],
-			headers[16]: [verses_per_estrofa[14]],
-			headers[17]: [hiphop_100],
-			headers[18]: [lang_mix],
-			headers[19]: [language_encoded],
-			headers[20]: [metal_100],
-			headers[21]: [parts[0]],
-			headers[22]: [parts[1]],
-			headers[23]: [parts[2]],
-			headers[24]: [parts[3]],
-			headers[25]: [parts[4]],
-			headers[26]: [parts[5]],
-			headers[27]: [parts[6]],
-			headers[28]: [parts[7]],
-			headers[29]: [parts[8]],
-			headers[30]: [parts[9]],
-			headers[31]: [parts[10]],
-			headers[32]: [parts[11]],
-			headers[33]: [parts[12]],
-			headers[34]: [parts[13]],
-			headers[35]: [parts[14]],
-			headers[36]: [pop_100],
-			headers[37]: [Num_repeated_verses],
-			headers[38]: [repe_100],
-			headers[39]: [stopWords_100],
-			headers[40]: [sum_],
-			headers[41]: [avg_verses_per_estrofa],
-			headers[42]: [avrg_verse_length],
-			headers[43]: [happy_100],
-			headers[44]: [longest_verse_len],
-			headers[45]: [max_verses_per_estrofa],
-			headers[46]: [min_verses_per_estrofa],
-			headers[47]: [shortest_verse_len],
-			headers[48]: [total_num_estrofas]
+			headers[2]: [hiphop_100],
+			headers[3]: [metal_100],
+			headers[4]: [pop_100],
+			headers[5]: [happy_100],
+			headers[6]: [stopWords_100],
+			headers[7]: [sum_],
+			headers[8]: [lang_mix],
+			headers[9]: [language_encoded],
+			headers[10]: [Num_repeated_verses],
+			headers[11]: [repe_100],
+			headers[12]: [avg_verses_per_estrofa],
+			headers[13]: [avrg_verse_length],
+			headers[14]: [longest_verse_len],
+			headers[15]: [max_verses_per_estrofa],
+			headers[16]: [min_verses_per_estrofa],
+			headers[17]: [shortest_verse_len],
+			headers[18]: [total_num_estrofas],
+			headers[19]: [parts[0]],
+			headers[20]: [parts[1]],
+			headers[21]: [parts[2]],
+			headers[22]: [parts[3]],
+			headers[23]: [parts[4]],
+			headers[24]: [parts[5]],
+			headers[25]: [parts[6]],
+			headers[26]: [parts[7]],
+			headers[27]: [parts[8]],
+			headers[28]: [parts[9]],
+			headers[29]: [parts[10]],
+			headers[30]: [parts[11]],
+			headers[31]: [parts[12]],
+			headers[32]: [parts[13]],
+			headers[33]: [parts[14]],
+			headers[34]: [verses_per_estrofa[0]],
+			headers[35]: [verses_per_estrofa[1]],
+			headers[36]: [verses_per_estrofa[2]],
+			headers[37]: [verses_per_estrofa[3]],
+			headers[38]: [verses_per_estrofa[4]],
+			headers[39]: [verses_per_estrofa[5]],
+			headers[40]: [verses_per_estrofa[6]],
+			headers[41]: [verses_per_estrofa[7]],
+			headers[42]: [verses_per_estrofa[8]],
+			headers[43]: [verses_per_estrofa[9]],
+			headers[44]: [verses_per_estrofa[10]],
+			headers[45]: [verses_per_estrofa[11]],
+			headers[46]: [verses_per_estrofa[12]],
+			headers[47]: [verses_per_estrofa[13]],
+			headers[48]: [verses_per_estrofa[14]],
 	}
 	
 	print('DICT:')
@@ -321,7 +295,7 @@ def create_song_lyricsDF(song_id, parts, duet,verses_per_estrofa, min_verses_per
 
 def append_row_to_DF(song_lyricsDF,output_file):
 	
-	song_lyricsDF.to_csv(output_file, sep='\t', mode='a', header=False)
+	song_lyricsDF.to_csv(output_file, sep='\t', mode='a', index= False, header=False)
 
 
 def tweak_names(song_name,artist_name):

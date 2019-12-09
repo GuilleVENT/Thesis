@@ -160,7 +160,7 @@ def main_req_playlist(user, pl_id, pl_name, access_token):
 	song_list_id        = ['Song2','ID']
 	artist_list_name    = ['Artist1','Name']
 	artist_list_id      = ['Artist2','ID']
-	album_list_name     = ['Album1','Name']			#esto cuando no este high lo meto en el primer Loop (while) inside Mafalda
+	album_list_name     = ['Album1','Name']			
 	album_list_id       = ['Album2','ID']
 	popularity_list     = ['Popularity']
 	preview_url_list    = ['Preview_URL',user]
