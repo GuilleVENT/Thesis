@@ -1,0 +1,248 @@
+ # * # * # * # * # * # * # * #
+ - PLAYLIST TRAINED TO CLF
+[('spotify', 'RapCaviar', '37i9dQZF1DX0XUsuxWHRQd'), ('spotify', 'Rock Classics', '37i9dQZF1DWXRqgorJj26U'), ('spotify', 'Peaceful Piano', '37i9dQZF1DX4sWSpwq3LiO'), ('spotify_germany', 'Techno Bunker', '37i9dQZF1DX6J5NfMJS675'), ('spotify', '¡Viva Latino!', '37i9dQZF1DX10zKzsJ2jva')]
+ -------- RESULTS --------
+ ----- SPOTIFY DATASET-----
+ - SVM  Classifier 
+ - PARAMETERS:
+{'C': 100, 'cache_size': 200, 'class_weight': None, 'coef0': 0.0, 'decision_function_shape': 'ovr', 'degree': 3, 'gamma': 1e-08, 'kernel': 'rbf', 'max_iter': -1, 'probability': False, 'random_state': None, 'shrinking': True, 'tol': 0.001, 'verbose': False}
+ - size of evaluation set
+(33, 13)
+(33, 1)
+ --> Validation: 
+ - Accuracy: 57.58%
+              precision    recall  f1-score   support
+
+           0       0.36      0.50      0.42         8
+           1       0.25      0.20      0.22         5
+           2       0.85      0.73      0.79        15
+           3       0.75      0.75      0.75         4
+           4       0.00      0.00      0.00         1
+
+   micro avg       0.58      0.58      0.58        33
+   macro avg       0.44      0.44      0.44        33
+weighted avg       0.60      0.58      0.58        33
+
+[[ 4  2  1  0  1]
+ [ 2  1  1  1  0]
+ [ 4  0 11  0  0]
+ [ 0  1  0  3  0]
+ [ 1  0  0  0  0]]
+
+ - - - - - - - - - - - 
+ 
+ # * # * # * # * # * # * # * #
+ # * # * # * # * # * # * # * #
+ - PLAYLIST TRAINED TO CLF
+[('spotify', 'RapCaviar', '37i9dQZF1DX0XUsuxWHRQd'), ('spotify', 'Rock Classics', '37i9dQZF1DWXRqgorJj26U'), ('spotify', 'Peaceful Piano', '37i9dQZF1DX4sWSpwq3LiO'), ('spotify_germany', 'Techno Bunker', '37i9dQZF1DX6J5NfMJS675'), ('spotify', '¡Viva Latino!', '37i9dQZF1DX10zKzsJ2jva')]
+ -------- RESULTS --------
+ ----- SPOTIFY DATASET-----
+ - RF  Classifier 
+ - PARAMETERS:
+{'bootstrap': True, 'class_weight': None, 'criterion': 'gini', 'max_depth': 80, 'max_features': 2, 'max_leaf_nodes': None, 'min_impurity_decrease': 0.0, 'min_impurity_split': None, 'min_samples_leaf': 4, 'min_samples_split': 8, 'min_weight_fraction_leaf': 0.0, 'n_estimators': 50, 'n_jobs': None, 'oob_score': False, 'random_state': None, 'verbose': 0, 'warm_start': False}
+ - size of evaluation set
+(33, 13)
+(33, 1)
+ --> Validation: 
+ - Accuracy: 27.27%
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sklearn/metrics/classification.py:1143: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples.
+  'precision', 'predicted', average, warn_for)
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00         8
+           1       0.36      1.00      0.53         5
+           2       0.00      0.00      0.00        15
+           3       0.21      1.00      0.35         4
+           4       0.00      0.00      0.00         1
+
+   micro avg       0.27      0.27      0.27        33
+   macro avg       0.11      0.40      0.17        33
+weighted avg       0.08      0.27      0.12        33
+
+[[ 0  8  0  0  0]
+ [ 0  5  0  0  0]
+ [ 0  0  0 15  0]
+ [ 0  0  0  4  0]
+ [ 0  1  0  0  0]]
+
+ - - - - - - - - - - - 
+ 
+ # * # * # * # * # * # * # * #
+ # * # * # * # * # * # * # * #
+ - PLAYLIST TRAINED TO CLF
+[('spotify', 'RapCaviar', '37i9dQZF1DX0XUsuxWHRQd'), ('spotify', 'Rock Classics', '37i9dQZF1DWXRqgorJj26U'), ('spotify', 'Peaceful Piano', '37i9dQZF1DX4sWSpwq3LiO'), ('spotify_germany', 'Techno Bunker', '37i9dQZF1DX6J5NfMJS675'), ('spotify', '¡Viva Latino!', '37i9dQZF1DX10zKzsJ2jva')]
+ -------- RESULTS --------
+ ----- SPOTIFY DATASET-----
+ - kNN  Classifier 
+ - PARAMETERS:
+{'algorithm': 'auto', 'leaf_size': 1, 'metric': 'minkowski', 'metric_params': None, 'n_jobs': None, 'n_neighbors': 20, 'p': 2, 'weights': 'uniform'}
+ - size of evaluation set
+(33, 13)
+(33, 1)
+ --> Validation: 
+ - Accuracy: 12.12%
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sklearn/metrics/classification.py:1143: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples.
+  'precision', 'predicted', average, warn_for)
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00         8
+           1       0.00      0.00      0.00         5
+           2       0.00      0.00      0.00        15
+           3       0.12      1.00      0.22         4
+           4       0.00      0.00      0.00         1
+
+   micro avg       0.12      0.12      0.12        33
+   macro avg       0.02      0.20      0.04        33
+weighted avg       0.01      0.12      0.03        33
+
+[[ 0  0  0  8  0]
+ [ 0  0  0  5  0]
+ [ 0  0  0 15  0]
+ [ 0  0  0  4  0]
+ [ 0  0  0  1  0]]
+
+ - - - - - - - - - - - 
+ 
+ # * # * # * # * # * # * # * #
+ # * # * # * # * # * # * # * #
+ - PLAYLIST TRAINED TO CLF
+[('spotify', 'RapCaviar', '37i9dQZF1DX0XUsuxWHRQd'), ('spotify', 'Rock Classics', '37i9dQZF1DWXRqgorJj26U'), ('spotify', 'Peaceful Piano', '37i9dQZF1DX4sWSpwq3LiO'), ('spotify_germany', 'Techno Bunker', '37i9dQZF1DX6J5NfMJS675'), ('spotify', '¡Viva Latino!', '37i9dQZF1DX10zKzsJ2jva')]
+ -------- RESULTS --------
+ ----- LYRICS DATASET-----
+ - SVM  Classifier 
+ - PARAMETERS:
+{'C': 10000, 'cache_size': 200, 'class_weight': None, 'coef0': 0.0, 'decision_function_shape': 'ovr', 'degree': 3, 'gamma': 1e-07, 'kernel': 'sigmoid', 'max_iter': -1, 'probability': False, 'random_state': None, 'shrinking': True, 'tol': 0.001, 'verbose': False}
+ - size of evaluation set
+(20, 48)
+(20, 1)
+ --> Validation: 
+ - Accuracy: 75.00%
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sklearn/metrics/classification.py:1143: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples.
+  'precision', 'predicted', average, warn_for)
+              precision    recall  f1-score   support
+
+           0       1.00      0.88      0.93         8
+           1       0.38      1.00      0.55         3
+           2       1.00      0.33      0.50         3
+           3       0.00      0.00      0.00         2
+           4       1.00      1.00      1.00         4
+
+   micro avg       0.75      0.75      0.75        20
+   macro avg       0.68      0.64      0.60        20
+weighted avg       0.81      0.75      0.73        20
+
+[[7 1 0 0 0]
+ [0 3 0 0 0]
+ [0 2 1 0 0]
+ [0 2 0 0 0]
+ [0 0 0 0 4]]
+
+ - - - - - - - - - - - 
+ 
+ # * # * # * # * # * # * # * #
+ # * # * # * # * # * # * # * #
+ - PLAYLIST TRAINED TO CLF
+[('spotify', 'RapCaviar', '37i9dQZF1DX0XUsuxWHRQd'), ('spotify', 'Rock Classics', '37i9dQZF1DWXRqgorJj26U'), ('spotify', 'Peaceful Piano', '37i9dQZF1DX4sWSpwq3LiO'), ('spotify_germany', 'Techno Bunker', '37i9dQZF1DX6J5NfMJS675'), ('spotify', '¡Viva Latino!', '37i9dQZF1DX10zKzsJ2jva')]
+ -------- RESULTS --------
+ ----- LYRICS DATASET-----
+ - RF  Classifier 
+ - PARAMETERS:
+{'bootstrap': True, 'class_weight': None, 'criterion': 'gini', 'max_depth': 50, 'max_features': 3, 'max_leaf_nodes': None, 'min_impurity_decrease': 0.0, 'min_impurity_split': None, 'min_samples_leaf': 3, 'min_samples_split': 8, 'min_weight_fraction_leaf': 0.0, 'n_estimators': 100, 'n_jobs': None, 'oob_score': False, 'random_state': None, 'verbose': 0, 'warm_start': False}
+ - size of evaluation set
+(20, 48)
+(20, 1)
+ --> Validation: 
+ - Accuracy: 25.00%
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sklearn/metrics/classification.py:1143: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples.
+  'precision', 'predicted', average, warn_for)
+              precision    recall  f1-score   support
+
+           0       0.17      0.12      0.14         8
+           1       0.00      0.00      0.00         3
+           2       0.00      0.00      0.00         3
+           3       0.00      0.00      0.00         2
+           4       0.29      1.00      0.44         4
+
+   micro avg       0.25      0.25      0.25        20
+   macro avg       0.09      0.23      0.12        20
+weighted avg       0.12      0.25      0.15        20
+
+[[1 0 0 0 7]
+ [1 0 0 0 2]
+ [2 0 0 0 1]
+ [2 0 0 0 0]
+ [0 0 0 0 4]]
+
+ - - - - - - - - - - - 
+ 
+ # * # * # * # * # * # * # * #
+ # * # * # * # * # * # * # * #
+ - PLAYLIST TRAINED TO CLF
+[('spotify', 'RapCaviar', '37i9dQZF1DX0XUsuxWHRQd'), ('spotify', 'Rock Classics', '37i9dQZF1DWXRqgorJj26U'), ('spotify', 'Peaceful Piano', '37i9dQZF1DX4sWSpwq3LiO'), ('spotify_germany', 'Techno Bunker', '37i9dQZF1DX6J5NfMJS675'), ('spotify', '¡Viva Latino!', '37i9dQZF1DX10zKzsJ2jva')]
+ -------- RESULTS --------
+ ----- LYRICS DATASET-----
+ - kNN  Classifier 
+ - PARAMETERS:
+{'algorithm': 'auto', 'leaf_size': 1, 'metric': 'minkowski', 'metric_params': None, 'n_jobs': None, 'n_neighbors': 3, 'p': 2, 'weights': 'distance'}
+ - size of evaluation set
+(20, 48)
+(20, 1)
+ --> Validation: 
+ - Accuracy: 50.00%
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/sklearn/metrics/classification.py:1143: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples.
+  'precision', 'predicted', average, warn_for)
+              precision    recall  f1-score   support
+
+           0       0.54      0.88      0.67         8
+           1       0.00      0.00      0.00         3
+           2       0.00      0.00      0.00         3
+           3       0.00      0.00      0.00         2
+           4       0.75      0.75      0.75         4
+
+   micro avg       0.50      0.50      0.50        20
+   macro avg       0.26      0.33      0.28        20
+weighted avg       0.37      0.50      0.42        20
+
+[[7 0 0 1 0]
+ [3 0 0 0 0]
+ [1 0 0 1 1]
+ [2 0 0 0 0]
+ [0 0 0 1 3]]
+
+ - - - - - - - - - - - 
+ 
+ # * # * # * # * # * # * # * #
+ # * # * # * # * # * # * # * #
+ - PLAYLIST TRAINED TO CLF
+[('spotify', 'RapCaviar', '37i9dQZF1DX0XUsuxWHRQd'), ('spotify', 'Rock Classics', '37i9dQZF1DWXRqgorJj26U'), ('spotify', 'Peaceful Piano', '37i9dQZF1DX4sWSpwq3LiO'), ('spotify_germany', 'Techno Bunker', '37i9dQZF1DX6J5NfMJS675'), ('spotify', '¡Viva Latino!', '37i9dQZF1DX10zKzsJ2jva')]
+ -------- RESULTS --------
+ -----   MIR  DATASET-----
+ - SVM  Classifier 
+ - PARAMETERS:
+{'C': 100, 'cache_size': 200, 'class_weight': None, 'coef0': 0.0, 'decision_function_shape': 'ovr', 'degree': 3, 'gamma': 1e-08, 'kernel': 'rbf', 'max_iter': -1, 'probability': False, 'random_state': None, 'shrinking': True, 'tol': 0.001, 'verbose': False}
+ - size of evaluation set
+(24, 35)
+(24, 1)
+ --> Validation: 
+ - Accuracy: 87.50%
+              precision    recall  f1-score   support
+
+           0       1.00      0.67      0.80         3
+           1       0.67      1.00      0.80         2
+           2       1.00      1.00      1.00         8
+           3       0.80      0.67      0.73         6
+           4       0.83      1.00      0.91         5
+
+   micro avg       0.88      0.88      0.88        24
+   macro avg       0.86      0.87      0.85        24
+weighted avg       0.89      0.88      0.87        24
+
+[[2 0 0 1 0]
+ [0 2 0 0 0]
+ [0 0 8 0 0]
+ [0 1 0 4 1]
+ [0 0 0 0 5]]
+
+ - - - - - - - - - - - 
+ 
+ # * # * # * # * # * # * # * #
