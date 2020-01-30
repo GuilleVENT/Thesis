@@ -38,7 +38,11 @@ def popular_pl():
 			print(path_RES+user)
 			
 			days = os.listdir(path_RES+user)
-			pl_list = os.listdir(path_RES+user+"/"+days[1])
+			print(days)
+			try:
+				pl_list = os.listdir(path_RES+user+"/"+days[1])
+			except IndexError: 
+				pl_list = os.listdir(path_RES+user+'/'+days[-1])
 
 			for i, day in enumerate(days):
 				if day.startswith("."):
