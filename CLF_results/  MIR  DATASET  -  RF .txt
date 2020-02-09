@@ -1,0 +1,768 @@
+ # * # * # * # * # * # * # * #
+ - PLAYLIST TRAINED TO CLF
+ PL CLF index: - 0 - - - - - - - - - - - - - - -
+ - ############:
+0
+ - USER:
+spotify
+ - PLAYLIST:RapCaviar
+ - PL ID37i9dQZF1DX0XUsuxWHRQd
+ - ############:
+1
+ - USER:
+spotify_germany
+ - PLAYLIST:Techno Bunker
+ - PL ID37i9dQZF1DX6J5NfMJS675
+ - ############:
+2
+ - USER:
+spotify
+ - PLAYLIST:Peaceful Piano
+ - PL ID37i9dQZF1DX4sWSpwq3LiO
+ - ############:
+3
+ - USER:
+spotify
+ - PLAYLIST:¡Viva Latino!
+ - PL ID37i9dQZF1DX10zKzsJ2jva
+ - ############:
+4
+ - USER:
+spotify
+ - PLAYLIST:Hot Country
+ - PL ID37i9dQZF1DX1lVhptIYRda
+ -------- RESULTS --------
+ -----   MIR  DATASET -----
+ - RF  Classifier 
+ - PARAMETERS:
+{"bootstrap": true, "class_weight": null, "criterion": "gini", "max_depth": 50, "max_features": 2, "max_leaf_nodes": null, "min_impurity_decrease": 0.0, "min_impurity_split": null, "min_samples_leaf": 3, "min_samples_split": 8, "min_weight_fraction_leaf": 0.0, "n_estimators": 1000, "n_jobs": null, "oob_score": false, "random_state": null, "verbose": 0, "warm_start": false}
+ --> Validation: 
+ - Accuracy: 26.83%
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00        19
+           1       0.65      0.94      0.77        18
+           2       0.00      0.00      0.00        24
+           3       0.09      0.83      0.16         6
+           4       0.00      0.00      0.00        15
+
+   micro avg       0.27      0.27      0.27        82
+   macro avg       0.15      0.36      0.19        82
+weighted avg       0.15      0.27      0.18        82
+
+[[ 0  2  0 17  0]
+ [ 0 17  0  1  0]
+ [ 0  0  0 24  0]
+ [ 0  1  0  5  0]
+ [ 0  6  0  9  0]]
+ - - - - - - - - - - - 
+ 
+ # * # * # * # * # * # * # * #
+ # * # * # * # * # * # * # * #
+ - PLAYLIST TRAINED TO CLF
+ PL CLF index: - 1 - - - - - - - - - - - - - - -
+ - ############:
+0
+ - USER:
+spotify
+ - PLAYLIST:RapCaviar
+ - PL ID37i9dQZF1DX0XUsuxWHRQd
+ - ############:
+1
+ - USER:
+spotify
+ - PLAYLIST:Peaceful Piano
+ - PL ID37i9dQZF1DX4sWSpwq3LiO
+ - ############:
+2
+ - USER:
+spotify
+ - PLAYLIST:¡Viva Latino!
+ - PL ID37i9dQZF1DX10zKzsJ2jva
+ - ############:
+3
+ - USER:
+spotify
+ - PLAYLIST:Hot Country
+ - PL ID37i9dQZF1DX1lVhptIYRda
+ -------- RESULTS --------
+ -----   MIR  DATASET -----
+ - RF  Classifier 
+ - PARAMETERS:
+{"bootstrap": true, "class_weight": null, "criterion": "gini", "max_depth": 20, "max_features": 2, "max_leaf_nodes": null, "min_impurity_decrease": 0.0, "min_impurity_split": null, "min_samples_leaf": 4, "min_samples_split": 8, "min_weight_fraction_leaf": 0.0, "n_estimators": 100, "n_jobs": null, "oob_score": false, "random_state": null, "verbose": 0, "warm_start": false}
+ --> Validation: 
+ - Accuracy: 11.11%
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00        20
+           1       0.00      0.00      0.00        18
+           2       0.11      1.00      0.20         7
+           3       0.00      0.00      0.00        18
+
+   micro avg       0.11      0.11      0.11        63
+   macro avg       0.03      0.25      0.05        63
+weighted avg       0.01      0.11      0.02        63
+
+[[ 0  0 20  0]
+ [ 0  0 18  0]
+ [ 0  0  7  0]
+ [ 0  0 18  0]]
+ - - - - - - - - - - - 
+ 
+ # * # * # * # * # * # * # * #
+ # * # * # * # * # * # * # * #
+ - PLAYLIST TRAINED TO CLF
+ PL CLF index: - 2 - - - - - - - - - - - - - - -
+ - ############:
+0
+ - USER:
+spotify
+ - PLAYLIST:RapCaviar
+ - PL ID37i9dQZF1DX0XUsuxWHRQd
+ - ############:
+1
+ - USER:
+spotify_germany
+ - PLAYLIST:Techno Bunker
+ - PL ID37i9dQZF1DX6J5NfMJS675
+ - ############:
+2
+ - USER:
+spotify
+ - PLAYLIST:¡Viva Latino!
+ - PL ID37i9dQZF1DX10zKzsJ2jva
+ - ############:
+3
+ - USER:
+spotify
+ - PLAYLIST:Hot Country
+ - PL ID37i9dQZF1DX1lVhptIYRda
+ -------- RESULTS --------
+ -----   MIR  DATASET -----
+ - RF  Classifier 
+ - PARAMETERS:
+{"bootstrap": true, "class_weight": null, "criterion": "gini", "max_depth": 50, "max_features": 2, "max_leaf_nodes": null, "min_impurity_decrease": 0.0, "min_impurity_split": null, "min_samples_leaf": 3, "min_samples_split": 8, "min_weight_fraction_leaf": 0.0, "n_estimators": 1000, "n_jobs": null, "oob_score": false, "random_state": null, "verbose": 0, "warm_start": false}
+ --> Validation: 
+ - Accuracy: 27.27%
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00        18
+           1       0.27      1.00      0.43        15
+           2       0.00      0.00      0.00        11
+           3       0.00      0.00      0.00        11
+
+   micro avg       0.27      0.27      0.27        55
+   macro avg       0.07      0.25      0.11        55
+weighted avg       0.07      0.27      0.12        55
+
+[[ 0 18  0  0]
+ [ 0 15  0  0]
+ [ 0 11  0  0]
+ [ 0 11  0  0]]
+ - - - - - - - - - - - 
+ 
+ # * # * # * # * # * # * # * #
+ # * # * # * # * # * # * # * #
+ - PLAYLIST TRAINED TO CLF
+ PL CLF index: - 3 - - - - - - - - - - - - - - -
+ - ############:
+0
+ - USER:
+spotify_germany
+ - PLAYLIST:Techno Bunker
+ - PL ID37i9dQZF1DX6J5NfMJS675
+ - ############:
+1
+ - USER:
+spotify
+ - PLAYLIST:Peaceful Piano
+ - PL ID37i9dQZF1DX4sWSpwq3LiO
+ - ############:
+2
+ - USER:
+spotify
+ - PLAYLIST:¡Viva Latino!
+ - PL ID37i9dQZF1DX10zKzsJ2jva
+ - ############:
+3
+ - USER:
+spotify
+ - PLAYLIST:Hot Country
+ - PL ID37i9dQZF1DX1lVhptIYRda
+ -------- RESULTS --------
+ -----   MIR  DATASET -----
+ - RF  Classifier 
+ - PARAMETERS:
+{"bootstrap": true, "class_weight": null, "criterion": "gini", "max_depth": 10, "max_features": 2, "max_leaf_nodes": null, "min_impurity_decrease": 0.0, "min_impurity_split": null, "min_samples_leaf": 3, "min_samples_split": 8, "min_weight_fraction_leaf": 0.0, "n_estimators": 1000, "n_jobs": null, "oob_score": false, "random_state": null, "verbose": 0, "warm_start": false}
+ --> Validation: 
+ - Accuracy: 43.28%
+              precision    recall  f1-score   support
+
+           0       0.57      1.00      0.72        21
+           1       0.00      0.00      0.00        20
+           2       0.27      0.73      0.39        11
+           3       0.00      0.00      0.00        15
+
+   micro avg       0.43      0.43      0.43        67
+   macro avg       0.21      0.43      0.28        67
+weighted avg       0.22      0.43      0.29        67
+
+[[21  0  0  0]
+ [ 1  0 19  0]
+ [ 3  0  8  0]
+ [12  0  3  0]]
+ - - - - - - - - - - - 
+ 
+ # * # * # * # * # * # * # * #
+ # * # * # * # * # * # * # * #
+ - PLAYLIST TRAINED TO CLF
+ PL CLF index: - 4 - - - - - - - - - - - - - - -
+ - ############:
+0
+ - USER:
+spotify
+ - PLAYLIST:All Out 80s
+ - PL ID37i9dQZF1DX4UtSsGT1Sbe
+ - ############:
+1
+ - USER:
+spotify
+ - PLAYLIST:All Out 00s
+ - PL ID37i9dQZF1DX4o1oenSJRJd
+ - ############:
+2
+ - USER:
+chillhopmusic
+ - PLAYLIST:lofi hip hop beats - music to study/relax to ( lo-fi chill hop )
+ - PL ID74sUjcvpGfdOvCHvgzNEDO
+ - ############:
+3
+ - USER:
+spotify_uk_
+ - PLAYLIST:Yoga & Meditation
+ - PL ID37i9dQZF1DX9uKNf5jGX6m
+ - ############:
+4
+ - USER:
+spotify_uk_
+ - PLAYLIST:Massive Dance Hits
+ - PL ID37i9dQZF1DX1N5uK98ms5p
+ -------- RESULTS --------
+ -----   MIR  DATASET -----
+ - RF  Classifier 
+ - PARAMETERS:
+{"bootstrap": true, "class_weight": null, "criterion": "gini", "max_depth": 100, "max_features": 2, "max_leaf_nodes": null, "min_impurity_decrease": 0.0, "min_impurity_split": null, "min_samples_leaf": 3, "min_samples_split": 10, "min_weight_fraction_leaf": 0.0, "n_estimators": 100, "n_jobs": null, "oob_score": false, "random_state": null, "verbose": 0, "warm_start": false}
+ --> Validation: 
+ - Accuracy: 22.00%
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00        14
+           1       0.00      0.00      0.00         6
+           2       0.38      0.04      0.07        74
+           3       0.00      0.00      0.00        26
+           4       0.21      1.00      0.35        30
+
+   micro avg       0.22      0.22      0.22       150
+   macro avg       0.12      0.21      0.08       150
+weighted avg       0.23      0.22      0.11       150
+
+[[ 0  0  0  0 14]
+ [ 0  0  0  0  6]
+ [ 0  0  3  0 71]
+ [ 0  0  5  0 21]
+ [ 0  0  0  0 30]]
+ - - - - - - - - - - - 
+ 
+ # * # * # * # * # * # * # * #
+ # * # * # * # * # * # * # * #
+ - PLAYLIST TRAINED TO CLF
+ PL CLF index: - 5 - - - - - - - - - - - - - - -
+ - ############:
+0
+ - USER:
+spotify
+ - PLAYLIST:All Out 80s
+ - PL ID37i9dQZF1DX4UtSsGT1Sbe
+ - ############:
+1
+ - USER:
+chillhopmusic
+ - PLAYLIST:lofi hip hop beats - music to study/relax to ( lo-fi chill hop )
+ - PL ID74sUjcvpGfdOvCHvgzNEDO
+ - ############:
+2
+ - USER:
+spotify_uk_
+ - PLAYLIST:Yoga & Meditation
+ - PL ID37i9dQZF1DX9uKNf5jGX6m
+ - ############:
+3
+ - USER:
+spotify_uk_
+ - PLAYLIST:Massive Dance Hits
+ - PL ID37i9dQZF1DX1N5uK98ms5p
+ -------- RESULTS --------
+ -----   MIR  DATASET -----
+ - RF  Classifier 
+ - PARAMETERS:
+{"bootstrap": true, "class_weight": null, "criterion": "gini", "max_depth": 10, "max_features": 2, "max_leaf_nodes": null, "min_impurity_decrease": 0.0, "min_impurity_split": null, "min_samples_leaf": 5, "min_samples_split": 8, "min_weight_fraction_leaf": 0.0, "n_estimators": 100, "n_jobs": null, "oob_score": false, "random_state": null, "verbose": 0, "warm_start": false}
+ --> Validation: 
+ - Accuracy: 63.38%
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00        10
+           1       0.64      0.97      0.78        78
+           2       0.00      0.00      0.00        29
+           3       0.58      0.56      0.57        25
+
+   micro avg       0.63      0.63      0.63       142
+   macro avg       0.31      0.38      0.34       142
+weighted avg       0.46      0.63      0.53       142
+
+[[ 0  2  0  8]
+ [ 0 76  0  2]
+ [ 0 29  0  0]
+ [ 0 11  0 14]]
+ - - - - - - - - - - - 
+ 
+ # * # * # * # * # * # * # * #
+ # * # * # * # * # * # * # * #
+ - PLAYLIST TRAINED TO CLF
+ PL CLF index: - 6 - - - - - - - - - - - - - - -
+ - ############:
+0
+ - USER:
+spotify
+ - PLAYLIST:All Out 00s
+ - PL ID37i9dQZF1DX4o1oenSJRJd
+ - ############:
+1
+ - USER:
+chillhopmusic
+ - PLAYLIST:lofi hip hop beats - music to study/relax to ( lo-fi chill hop )
+ - PL ID74sUjcvpGfdOvCHvgzNEDO
+ - ############:
+2
+ - USER:
+spotify_uk_
+ - PLAYLIST:Massive Dance Hits
+ - PL ID37i9dQZF1DX1N5uK98ms5p
+ -------- RESULTS --------
+ -----   MIR  DATASET -----
+ - RF  Classifier 
+ - PARAMETERS:
+{"bootstrap": true, "class_weight": null, "criterion": "gini", "max_depth": 100, "max_features": 2, "max_leaf_nodes": null, "min_impurity_decrease": 0.0, "min_impurity_split": null, "min_samples_leaf": 3, "min_samples_split": 8, "min_weight_fraction_leaf": 0.0, "n_estimators": 100, "n_jobs": null, "oob_score": false, "random_state": null, "verbose": 0, "warm_start": false}
+ --> Validation: 
+ - Accuracy: 24.32%
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00         8
+           1       0.00      0.00      0.00        76
+           2       0.24      1.00      0.39        27
+
+   micro avg       0.24      0.24      0.24       111
+   macro avg       0.08      0.33      0.13       111
+weighted avg       0.06      0.24      0.10       111
+
+[[ 0  0  8]
+ [ 0  0 76]
+ [ 0  0 27]]
+ - - - - - - - - - - - 
+ 
+ # * # * # * # * # * # * # * #
+ # * # * # * # * # * # * # * #
+ - PLAYLIST TRAINED TO CLF
+ PL CLF index: - 7 - - - - - - - - - - - - - - -
+ - ############:
+0
+ - USER:
+spotify
+ - PLAYLIST:All Out 80s
+ - PL ID37i9dQZF1DX4UtSsGT1Sbe
+ - ############:
+1
+ - USER:
+spotify
+ - PLAYLIST:Today's Top Hits
+ - PL ID37i9dQZF1DXcBWIGoYBM5M
+ - ############:
+2
+ - USER:
+spotify_germany
+ - PLAYLIST:Techno Bunker
+ - PL ID37i9dQZF1DX6J5NfMJS675
+ - ############:
+3
+ - USER:
+spotify
+ - PLAYLIST:¡Viva Latino!
+ - PL ID37i9dQZF1DX10zKzsJ2jva
+ -------- RESULTS --------
+ -----   MIR  DATASET -----
+ - RF  Classifier 
+ - PARAMETERS:
+{"bootstrap": true, "class_weight": null, "criterion": "gini", "max_depth": 10, "max_features": 2, "max_leaf_nodes": null, "min_impurity_decrease": 0.0, "min_impurity_split": null, "min_samples_leaf": 4, "min_samples_split": 12, "min_weight_fraction_leaf": 0.0, "n_estimators": 1000, "n_jobs": null, "oob_score": false, "random_state": null, "verbose": 0, "warm_start": false}
+ --> Validation: 
+ - Accuracy: 32.08%
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00        14
+           1       0.00      0.00      0.00        13
+           2       0.32      1.00      0.49        17
+           3       0.00      0.00      0.00         9
+
+   micro avg       0.32      0.32      0.32        53
+   macro avg       0.08      0.25      0.12        53
+weighted avg       0.10      0.32      0.16        53
+
+[[ 0  0 14  0]
+ [ 0  0 13  0]
+ [ 0  0 17  0]
+ [ 0  0  9  0]]
+ - - - - - - - - - - - 
+ 
+ # * # * # * # * # * # * # * #
+ # * # * # * # * # * # * # * #
+ - PLAYLIST TRAINED TO CLF
+ PL CLF index: - 8 - - - - - - - - - - - - - - -
+ - ############:
+0
+ - USER:
+chillhopmusic
+ - PLAYLIST:lofi hip hop beats - music to study/relax to ( lo-fi chill hop )
+ - PL ID74sUjcvpGfdOvCHvgzNEDO
+ - ############:
+1
+ - USER:
+spotify
+ - PLAYLIST:All Out 80s
+ - PL ID37i9dQZF1DX4UtSsGT1Sbe
+ - ############:
+2
+ - USER:
+topsify
+ - PLAYLIST:House Music 2020
+ - PL ID2otQLmbi8QWHjDfq3eL0DC
+ - ############:
+3
+ - USER:
+spotify
+ - PLAYLIST:RapCaviar
+ - PL ID37i9dQZF1DX0XUsuxWHRQd
+ -------- RESULTS --------
+ -----   MIR  DATASET -----
+ - RF  Classifier 
+ - PARAMETERS:
+{"bootstrap": true, "class_weight": null, "criterion": "gini", "max_depth": 100, "max_features": 2, "max_leaf_nodes": null, "min_impurity_decrease": 0.0, "min_impurity_split": null, "min_samples_leaf": 3, "min_samples_split": 8, "min_weight_fraction_leaf": 0.0, "n_estimators": 1000, "n_jobs": null, "oob_score": false, "random_state": null, "verbose": 0, "warm_start": false}
+ --> Validation: 
+ - Accuracy: 28.67%
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00        80
+           1       0.00      0.00      0.00        11
+           2       0.29      1.00      0.45        41
+           3       0.00      0.00      0.00        11
+
+   micro avg       0.29      0.29      0.29       143
+   macro avg       0.07      0.25      0.11       143
+weighted avg       0.08      0.29      0.13       143
+
+[[ 0  0 80  0]
+ [ 0  0 11  0]
+ [ 0  0 41  0]
+ [ 0  0 11  0]]
+ - - - - - - - - - - - 
+ 
+ # * # * # * # * # * # * # * #
+ # * # * # * # * # * # * # * #
+ - PLAYLIST TRAINED TO CLF
+ PL CLF index: - 9 - - - - - - - - - - - - - - -
+ - ############:
+0
+ - USER:
+chillhopmusic
+ - PLAYLIST:lofi hip hop beats - music to study/relax to ( lo-fi chill hop )
+ - PL ID74sUjcvpGfdOvCHvgzNEDO
+ - ############:
+1
+ - USER:
+spotify
+ - PLAYLIST:All Out 80s
+ - PL ID37i9dQZF1DX4UtSsGT1Sbe
+ - ############:
+2
+ - USER:
+topsify
+ - PLAYLIST:House Music 2020
+ - PL ID2otQLmbi8QWHjDfq3eL0DC
+ - ############:
+3
+ - USER:
+spotify
+ - PLAYLIST:RapCaviar
+ - PL ID37i9dQZF1DX0XUsuxWHRQd
+ - ############:
+4
+ - USER:
+spotify
+ - PLAYLIST:Peaceful Piano
+ - PL ID37i9dQZF1DX4sWSpwq3LiO
+ - ############:
+5
+ - USER:
+spotify
+ - PLAYLIST:¡Viva Latino!
+ - PL ID37i9dQZF1DX10zKzsJ2jva
+ -------- RESULTS --------
+ -----   MIR  DATASET -----
+ - RF  Classifier 
+ - PARAMETERS:
+{"bootstrap": true, "class_weight": null, "criterion": "gini", "max_depth": 20, "max_features": 2, "max_leaf_nodes": null, "min_impurity_decrease": 0.0, "min_impurity_split": null, "min_samples_leaf": 3, "min_samples_split": 10, "min_weight_fraction_leaf": 0.0, "n_estimators": 100, "n_jobs": null, "oob_score": false, "random_state": null, "verbose": 0, "warm_start": false}
+ --> Validation: 
+ - Accuracy: 56.35%
+              precision    recall  f1-score   support
+
+           0       0.77      0.88      0.82        82
+           1       0.00      0.00      0.00         8
+           2       0.76      0.61      0.68        41
+           3       0.00      0.00      0.00        18
+           4       0.00      0.00      0.00        22
+           5       0.09      0.50      0.16        10
+
+   micro avg       0.56      0.56      0.56       181
+   macro avg       0.27      0.33      0.28       181
+weighted avg       0.52      0.56      0.53       181
+
+[[72  0  0  0  0 10]
+ [ 0  0  2  0  0  6]
+ [ 0  0 25  0  0 16]
+ [ 0  0  1  0  0 17]
+ [22  0  0  0  0  0]
+ [ 0  0  5  0  0  5]]
+ - - - - - - - - - - - 
+ 
+ # * # * # * # * # * # * # * #
+ # * # * # * # * # * # * # * #
+ - PLAYLIST TRAINED TO CLF
+ PL CLF index: - 10 - - - - - - - - - - - - - - -
+ - ############:
+0
+ - USER:
+chillhopmusic
+ - PLAYLIST:lofi hip hop beats - music to study/relax to ( lo-fi chill hop )
+ - PL ID74sUjcvpGfdOvCHvgzNEDO
+ - ############:
+1
+ - USER:
+topsify
+ - PLAYLIST:House Music 2020
+ - PL ID2otQLmbi8QWHjDfq3eL0DC
+ - ############:
+2
+ - USER:
+spotify_uk_
+ - PLAYLIST:Tropical House
+ - PL ID37i9dQZF1DX0AMssoUKCz7
+ - ############:
+3
+ - USER:
+spotify
+ - PLAYLIST:¡Viva Latino!
+ - PL ID37i9dQZF1DX10zKzsJ2jva
+ - ############:
+4
+ - USER:
+spotify
+ - PLAYLIST:RapCaviar
+ - PL ID37i9dQZF1DX0XUsuxWHRQd
+ -------- RESULTS --------
+ -----   MIR  DATASET -----
+ - RF  Classifier 
+ - PARAMETERS:
+{"bootstrap": true, "class_weight": null, "criterion": "gini", "max_depth": 50, "max_features": 2, "max_leaf_nodes": null, "min_impurity_decrease": 0.0, "min_impurity_split": null, "min_samples_leaf": 3, "min_samples_split": 8, "min_weight_fraction_leaf": 0.0, "n_estimators": 1000, "n_jobs": null, "oob_score": false, "random_state": null, "verbose": 0, "warm_start": false}
+ --> Validation: 
+ - Accuracy: 25.77%
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00        77
+           1       0.26      1.00      0.41        42
+           2       0.00      0.00      0.00        19
+           3       0.00      0.00      0.00        12
+           4       0.00      0.00      0.00        13
+
+   micro avg       0.26      0.26      0.26       163
+   macro avg       0.05      0.20      0.08       163
+weighted avg       0.07      0.26      0.11       163
+
+[[ 0 77  0  0  0]
+ [ 0 42  0  0  0]
+ [ 0 19  0  0  0]
+ [ 0 12  0  0  0]
+ [ 0 13  0  0  0]]
+ - - - - - - - - - - - 
+ 
+ # * # * # * # * # * # * # * #
+ # * # * # * # * # * # * # * #
+ - PLAYLIST TRAINED TO CLF
+ PL CLF index: - 11 - - - - - - - - - - - - - - -
+ - ############:
+0
+ - USER:
+chillhopmusic
+ - PLAYLIST:lofi hip hop beats - music to study/relax to ( lo-fi chill hop )
+ - PL ID74sUjcvpGfdOvCHvgzNEDO
+ - ############:
+1
+ - USER:
+topsify
+ - PLAYLIST:House Music 2020
+ - PL ID2otQLmbi8QWHjDfq3eL0DC
+ - ############:
+2
+ - USER:
+spotify
+ - PLAYLIST:mint
+ - PL ID37i9dQZF1DX4dyzvuaRJ0n
+ - ############:
+3
+ - USER:
+spotify
+ - PLAYLIST:¡Viva Latino!
+ - PL ID37i9dQZF1DX10zKzsJ2jva
+ -------- RESULTS --------
+ -----   MIR  DATASET -----
+ - RF  Classifier 
+ - PARAMETERS:
+{"bootstrap": true, "class_weight": null, "criterion": "gini", "max_depth": 100, "max_features": 2, "max_leaf_nodes": null, "min_impurity_decrease": 0.0, "min_impurity_split": null, "min_samples_leaf": 4, "min_samples_split": 8, "min_weight_fraction_leaf": 0.0, "n_estimators": 100, "n_jobs": null, "oob_score": false, "random_state": null, "verbose": 0, "warm_start": false}
+ --> Validation: 
+ - Accuracy: 36.54%
+              precision    recall  f1-score   support
+
+           0       1.00      0.14      0.24        72
+           1       0.32      1.00      0.49        47
+           2       0.00      0.00      0.00        28
+           3       0.00      0.00      0.00         9
+
+   micro avg       0.37      0.37      0.37       156
+   macro avg       0.33      0.28      0.18       156
+weighted avg       0.56      0.37      0.26       156
+
+[[10 62  0  0]
+ [ 0 47  0  0]
+ [ 0 28  0  0]
+ [ 0  9  0  0]]
+ - - - - - - - - - - - 
+ 
+ # * # * # * # * # * # * # * #
+ # * # * # * # * # * # * # * #
+ - PLAYLIST TRAINED TO CLF
+ PL CLF index: - 12 - - - - - - - - - - - - - - -
+ - ############:
+0
+ - USER:
+spotify_france
+ - PLAYLIST:Pop Urbaine
+ - PL ID37i9dQZF1DWYVURwQHUqnN
+ - ############:
+1
+ - USER:
+spotify_france
+ - PLAYLIST:Hits du Moment
+ - PL ID37i9dQZF1DWVuV87wUBNwc
+ - ############:
+2
+ - USER:
+spotify_germany
+ - PLAYLIST:Techno Bunker
+ - PL ID37i9dQZF1DX6J5NfMJS675
+ - ############:
+3
+ - USER:
+spotify
+ - PLAYLIST:Peaceful Piano
+ - PL ID37i9dQZF1DX4sWSpwq3LiO
+ - ############:
+4
+ - USER:
+spotify
+ - PLAYLIST:¡Viva Latino!
+ - PL ID37i9dQZF1DX10zKzsJ2jva
+ -------- RESULTS --------
+ -----   MIR  DATASET -----
+ - RF  Classifier 
+ - PARAMETERS:
+{"bootstrap": true, "class_weight": null, "criterion": "gini", "max_depth": 100, "max_features": 2, "max_leaf_nodes": null, "min_impurity_decrease": 0.0, "min_impurity_split": null, "min_samples_leaf": 3, "min_samples_split": 10, "min_weight_fraction_leaf": 0.0, "n_estimators": 100, "n_jobs": null, "oob_score": false, "random_state": null, "verbose": 0, "warm_start": false}
+ --> Validation: 
+ - Accuracy: 26.85%
+              precision    recall  f1-score   support
+
+           0       0.27      1.00      0.42        29
+           1       0.00      0.00      0.00        21
+           2       0.00      0.00      0.00        20
+           3       0.00      0.00      0.00        25
+           4       0.00      0.00      0.00        13
+
+   micro avg       0.27      0.27      0.27       108
+   macro avg       0.05      0.20      0.08       108
+weighted avg       0.07      0.27      0.11       108
+
+[[29  0  0  0  0]
+ [21  0  0  0  0]
+ [20  0  0  0  0]
+ [25  0  0  0  0]
+ [13  0  0  0  0]]
+ - - - - - - - - - - - 
+ 
+ # * # * # * # * # * # * # * #
+ # * # * # * # * # * # * # * #
+ - PLAYLIST TRAINED TO CLF
+ PL CLF index: - 13 - - - - - - - - - - - - - - -
+ - ############:
+0
+ - USER:
+spotify_france
+ - PLAYLIST:Hits du Moment
+ - PL ID37i9dQZF1DWVuV87wUBNwc
+ - ############:
+1
+ - USER:
+spotify_germany
+ - PLAYLIST:Techno Bunker
+ - PL ID37i9dQZF1DX6J5NfMJS675
+ - ############:
+2
+ - USER:
+spotify
+ - PLAYLIST:Peaceful Piano
+ - PL ID37i9dQZF1DX4sWSpwq3LiO
+ - ############:
+3
+ - USER:
+spotify
+ - PLAYLIST:¡Viva Latino!
+ - PL ID37i9dQZF1DX10zKzsJ2jva
+ -------- RESULTS --------
+ -----   MIR  DATASET -----
+ - RF  Classifier 
+ - PARAMETERS:
+{"bootstrap": true, "class_weight": null, "criterion": "gini", "max_depth": 10, "max_features": 1, "max_leaf_nodes": null, "min_impurity_decrease": 0.0, "min_impurity_split": null, "min_samples_leaf": 5, "min_samples_split": 8, "min_weight_fraction_leaf": 0.0, "n_estimators": 100, "n_jobs": null, "oob_score": false, "random_state": null, "verbose": 0, "warm_start": false}
+ --> Validation: 
+ - Accuracy: 27.85%
+              precision    recall  f1-score   support
+
+           0       1.00      0.13      0.23        31
+           1       0.24      1.00      0.39        18
+           2       0.00      0.00      0.00        18
+           3       0.00      0.00      0.00        12
+
+   micro avg       0.28      0.28      0.28        79
+   macro avg       0.31      0.28      0.15        79
+weighted avg       0.45      0.28      0.18        79
+
+[[ 4 27  0  0]
+ [ 0 18  0  0]
+ [ 0 18  0  0]
+ [ 0 12  0  0]]
+ - - - - - - - - - - - 
+ 
+ # * # * # * # * # * # * # * #

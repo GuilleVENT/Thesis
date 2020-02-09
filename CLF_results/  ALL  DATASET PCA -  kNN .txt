@@ -1,0 +1,766 @@
+ # * # * # * # * # * # * # * #
+ - PLAYLIST TRAINED TO CLF
+ PL CLF index: -0 - - - - - - - - - - - - - - -
+ - ############:
+0
+ - USER:
+spotify
+ - PLAYLIST:RapCaviar
+ - PL ID37i9dQZF1DX0XUsuxWHRQd
+ - ############:
+1
+ - USER:
+spotify_germany
+ - PLAYLIST:Techno Bunker
+ - PL ID37i9dQZF1DX6J5NfMJS675
+ - ############:
+2
+ - USER:
+spotify
+ - PLAYLIST:Peaceful Piano
+ - PL ID37i9dQZF1DX4sWSpwq3LiO
+ - ############:
+3
+ - USER:
+spotify
+ - PLAYLIST:¡Viva Latino!
+ - PL ID37i9dQZF1DX10zKzsJ2jva
+ - ############:
+4
+ - USER:
+spotify
+ - PLAYLIST:Hot Country
+ - PL ID37i9dQZF1DX1lVhptIYRda
+ -------- RESULTS --------
+ -----   ALL  DATASET PCA-----
+ - kNN  Classifier 
+ - PARAMETERS:
+{"algorithm": "auto", "leaf_size": 1, "metric": "minkowski", "metric_params": null, "n_jobs": null, "n_neighbors": 7, "p": 2, "weights": "uniform"}
+ --> Validation: 
+ - Accuracy: 20.51%
+              precision    recall  f1-score   support
+
+           0       0.40      0.12      0.18        17
+           1       0.20      1.00      0.33         3
+           2       0.16      1.00      0.27         3
+           3       0.00      0.00      0.00         7
+           4       0.00      0.00      0.00         9
+
+   micro avg       0.21      0.21      0.21        39
+   macro avg       0.15      0.42      0.16        39
+weighted avg       0.20      0.21      0.13        39
+
+[[ 2  5 10  0  0]
+ [ 0  3  0  0  0]
+ [ 0  0  3  0  0]
+ [ 1  4  2  0  0]
+ [ 2  3  4  0  0]]
+ - - - - - - - - - - - 
+ 
+ # * # * # * # * # * # * # * #
+ # * # * # * # * # * # * # * #
+ - PLAYLIST TRAINED TO CLF
+ PL CLF index: -1 - - - - - - - - - - - - - - -
+ - ############:
+0
+ - USER:
+spotify
+ - PLAYLIST:RapCaviar
+ - PL ID37i9dQZF1DX0XUsuxWHRQd
+ - ############:
+1
+ - USER:
+spotify
+ - PLAYLIST:Peaceful Piano
+ - PL ID37i9dQZF1DX4sWSpwq3LiO
+ - ############:
+2
+ - USER:
+spotify
+ - PLAYLIST:¡Viva Latino!
+ - PL ID37i9dQZF1DX10zKzsJ2jva
+ - ############:
+3
+ - USER:
+spotify
+ - PLAYLIST:Hot Country
+ - PL ID37i9dQZF1DX1lVhptIYRda
+ -------- RESULTS --------
+ -----   ALL  DATASET PCA-----
+ - kNN  Classifier 
+ - PARAMETERS:
+{"algorithm": "auto", "leaf_size": 1, "metric": "minkowski", "metric_params": null, "n_jobs": null, "n_neighbors": 3, "p": 2, "weights": "uniform"}
+ --> Validation: 
+ - Accuracy: 27.78%
+              precision    recall  f1-score   support
+
+           0       0.20      0.08      0.12        12
+           1       0.12      1.00      0.21         2
+           2       0.50      0.64      0.56        11
+           3       0.00      0.00      0.00        11
+
+   micro avg       0.28      0.28      0.28        36
+   macro avg       0.20      0.43      0.22        36
+weighted avg       0.23      0.28      0.22        36
+
+[[1 7 4 0]
+ [0 2 0 0]
+ [1 3 7 0]
+ [3 5 3 0]]
+ - - - - - - - - - - - 
+ 
+ # * # * # * # * # * # * # * #
+ # * # * # * # * # * # * # * #
+ - PLAYLIST TRAINED TO CLF
+ PL CLF index: -2 - - - - - - - - - - - - - - -
+ - ############:
+0
+ - USER:
+spotify
+ - PLAYLIST:RapCaviar
+ - PL ID37i9dQZF1DX0XUsuxWHRQd
+ - ############:
+1
+ - USER:
+spotify_germany
+ - PLAYLIST:Techno Bunker
+ - PL ID37i9dQZF1DX6J5NfMJS675
+ - ############:
+2
+ - USER:
+spotify
+ - PLAYLIST:¡Viva Latino!
+ - PL ID37i9dQZF1DX10zKzsJ2jva
+ - ############:
+3
+ - USER:
+spotify
+ - PLAYLIST:Hot Country
+ - PL ID37i9dQZF1DX1lVhptIYRda
+ -------- RESULTS --------
+ -----   ALL  DATASET PCA-----
+ - kNN  Classifier 
+ - PARAMETERS:
+{"algorithm": "auto", "leaf_size": 1, "metric": "minkowski", "metric_params": null, "n_jobs": null, "n_neighbors": 15, "p": 2, "weights": "distance"}
+ --> Validation: 
+ - Accuracy: 35.14%
+              precision    recall  f1-score   support
+
+           0       0.48      0.73      0.58        15
+           1       0.14      1.00      0.25         2
+           2       0.00      0.00      0.00        12
+           3       0.00      0.00      0.00         8
+
+   micro avg       0.35      0.35      0.35        37
+   macro avg       0.16      0.43      0.21        37
+weighted avg       0.20      0.35      0.25        37
+
+[[11  4  0  0]
+ [ 0  2  0  0]
+ [ 5  7  0  0]
+ [ 7  1  0  0]]
+ - - - - - - - - - - - 
+ 
+ # * # * # * # * # * # * # * #
+ # * # * # * # * # * # * # * #
+ - PLAYLIST TRAINED TO CLF
+ PL CLF index: -3 - - - - - - - - - - - - - - -
+ - ############:
+0
+ - USER:
+spotify_germany
+ - PLAYLIST:Techno Bunker
+ - PL ID37i9dQZF1DX6J5NfMJS675
+ - ############:
+1
+ - USER:
+spotify
+ - PLAYLIST:Peaceful Piano
+ - PL ID37i9dQZF1DX4sWSpwq3LiO
+ - ############:
+2
+ - USER:
+spotify
+ - PLAYLIST:¡Viva Latino!
+ - PL ID37i9dQZF1DX10zKzsJ2jva
+ - ############:
+3
+ - USER:
+spotify
+ - PLAYLIST:Hot Country
+ - PL ID37i9dQZF1DX1lVhptIYRda
+ -------- RESULTS --------
+ -----   ALL  DATASET PCA-----
+ - kNN  Classifier 
+ - PARAMETERS:
+{"algorithm": "auto", "leaf_size": 1, "metric": "minkowski", "metric_params": null, "n_jobs": null, "n_neighbors": 4, "p": 2, "weights": "distance"}
+ --> Validation: 
+ - Accuracy: 38.46%
+              precision    recall  f1-score   support
+
+           0       0.38      1.00      0.55         3
+           1       0.27      1.00      0.42         4
+           2       1.00      0.22      0.36         9
+           3       1.00      0.10      0.18        10
+
+   micro avg       0.38      0.38      0.38        26
+   macro avg       0.66      0.58      0.38        26
+weighted avg       0.82      0.38      0.32        26
+
+[[3 0 0 0]
+ [0 4 0 0]
+ [4 3 2 0]
+ [1 8 0 1]]
+ - - - - - - - - - - - 
+ 
+ # * # * # * # * # * # * # * #
+ # * # * # * # * # * # * # * #
+ - PLAYLIST TRAINED TO CLF
+ PL CLF index: -4 - - - - - - - - - - - - - - -
+ - ############:
+0
+ - USER:
+spotify
+ - PLAYLIST:All Out 80s
+ - PL ID37i9dQZF1DX4UtSsGT1Sbe
+ - ############:
+1
+ - USER:
+spotify
+ - PLAYLIST:All Out 00s
+ - PL ID37i9dQZF1DX4o1oenSJRJd
+ - ############:
+2
+ - USER:
+chillhopmusic
+ - PLAYLIST:lofi hip hop beats - music to study/relax to ( lo-fi chill hop )
+ - PL ID74sUjcvpGfdOvCHvgzNEDO
+ - ############:
+3
+ - USER:
+spotify_uk_
+ - PLAYLIST:Yoga & Meditation
+ - PL ID37i9dQZF1DX9uKNf5jGX6m
+ - ############:
+4
+ - USER:
+spotify_uk_
+ - PLAYLIST:Massive Dance Hits
+ - PL ID37i9dQZF1DX1N5uK98ms5p
+ -------- RESULTS --------
+ -----   ALL  DATASET PCA-----
+ - kNN  Classifier 
+ - PARAMETERS:
+{"algorithm": "auto", "leaf_size": 1, "metric": "minkowski", "metric_params": null, "n_jobs": null, "n_neighbors": 5, "p": 2, "weights": "uniform"}
+ --> Validation: 
+ - Accuracy: 48.78%
+              precision    recall  f1-score   support
+
+           0       0.24      0.82      0.38        11
+           1       0.00      0.00      0.00        11
+           2       0.67      0.90      0.77        31
+           3       0.00      0.00      0.00         1
+           4       1.00      0.11      0.19        28
+
+   micro avg       0.49      0.49      0.49        82
+   macro avg       0.38      0.37      0.27        82
+weighted avg       0.63      0.49      0.41        82
+
+[[ 9  0  2  0  0]
+ [10  0  1  0  0]
+ [ 3  0 28  0  0]
+ [ 1  0  0  0  0]
+ [14  0 11  0  3]]
+ - - - - - - - - - - - 
+ 
+ # * # * # * # * # * # * # * #
+ # * # * # * # * # * # * # * #
+ - PLAYLIST TRAINED TO CLF
+ PL CLF index: -5 - - - - - - - - - - - - - - -
+ - ############:
+0
+ - USER:
+spotify
+ - PLAYLIST:All Out 80s
+ - PL ID37i9dQZF1DX4UtSsGT1Sbe
+ - ############:
+1
+ - USER:
+chillhopmusic
+ - PLAYLIST:lofi hip hop beats - music to study/relax to ( lo-fi chill hop )
+ - PL ID74sUjcvpGfdOvCHvgzNEDO
+ - ############:
+2
+ - USER:
+spotify_uk_
+ - PLAYLIST:Yoga & Meditation
+ - PL ID37i9dQZF1DX9uKNf5jGX6m
+ - ############:
+3
+ - USER:
+spotify_uk_
+ - PLAYLIST:Massive Dance Hits
+ - PL ID37i9dQZF1DX1N5uK98ms5p
+ -------- RESULTS --------
+ -----   ALL  DATASET PCA-----
+ - kNN  Classifier 
+ - PARAMETERS:
+{"algorithm": "auto", "leaf_size": 1, "metric": "minkowski", "metric_params": null, "n_jobs": null, "n_neighbors": 4, "p": 2, "weights": "uniform"}
+ --> Validation: 
+ - Accuracy: 58.11%
+              precision    recall  f1-score   support
+
+           0       0.30      0.92      0.45        12
+           1       0.84      0.79      0.81        33
+           2       0.00      0.00      0.00         1
+           3       1.00      0.21      0.35        28
+
+   micro avg       0.58      0.58      0.58        74
+   macro avg       0.53      0.48      0.40        74
+weighted avg       0.80      0.58      0.57        74
+
+[[11  1  0  0]
+ [ 7 26  0  0]
+ [ 1  0  0  0]
+ [18  4  0  6]]
+ - - - - - - - - - - - 
+ 
+ # * # * # * # * # * # * # * #
+ # * # * # * # * # * # * # * #
+ - PLAYLIST TRAINED TO CLF
+ PL CLF index: -6 - - - - - - - - - - - - - - -
+ - ############:
+0
+ - USER:
+spotify
+ - PLAYLIST:All Out 00s
+ - PL ID37i9dQZF1DX4o1oenSJRJd
+ - ############:
+1
+ - USER:
+chillhopmusic
+ - PLAYLIST:lofi hip hop beats - music to study/relax to ( lo-fi chill hop )
+ - PL ID74sUjcvpGfdOvCHvgzNEDO
+ - ############:
+2
+ - USER:
+spotify_uk_
+ - PLAYLIST:Massive Dance Hits
+ - PL ID37i9dQZF1DX1N5uK98ms5p
+ -------- RESULTS --------
+ -----   ALL  DATASET PCA-----
+ - kNN  Classifier 
+ - PARAMETERS:
+{"algorithm": "auto", "leaf_size": 1, "metric": "minkowski", "metric_params": null, "n_jobs": null, "n_neighbors": 5, "p": 2, "weights": "uniform"}
+ --> Validation: 
+ - Accuracy: 63.77%
+              precision    recall  f1-score   support
+
+           0       0.20      0.12      0.15         8
+           1       0.78      0.76      0.77        33
+           2       0.56      0.64      0.60        28
+
+   micro avg       0.64      0.64      0.64        69
+   macro avg       0.51      0.51      0.51        69
+weighted avg       0.63      0.64      0.63        69
+
+[[ 1  0  7]
+ [ 1 25  7]
+ [ 3  7 18]]
+ - - - - - - - - - - - 
+ 
+ # * # * # * # * # * # * # * #
+ # * # * # * # * # * # * # * #
+ - PLAYLIST TRAINED TO CLF
+ PL CLF index: -7 - - - - - - - - - - - - - - -
+ - ############:
+0
+ - USER:
+spotify
+ - PLAYLIST:All Out 80s
+ - PL ID37i9dQZF1DX4UtSsGT1Sbe
+ - ############:
+1
+ - USER:
+spotify
+ - PLAYLIST:Today's Top Hits
+ - PL ID37i9dQZF1DXcBWIGoYBM5M
+ - ############:
+2
+ - USER:
+spotify_germany
+ - PLAYLIST:Techno Bunker
+ - PL ID37i9dQZF1DX6J5NfMJS675
+ - ############:
+3
+ - USER:
+spotify
+ - PLAYLIST:¡Viva Latino!
+ - PL ID37i9dQZF1DX10zKzsJ2jva
+ -------- RESULTS --------
+ -----   ALL  DATASET PCA-----
+ - kNN  Classifier 
+ - PARAMETERS:
+{"algorithm": "auto", "leaf_size": 1, "metric": "minkowski", "metric_params": null, "n_jobs": null, "n_neighbors": 5, "p": 2, "weights": "uniform"}
+ --> Validation: 
+ - Accuracy: 42.86%
+              precision    recall  f1-score   support
+
+           0       0.80      0.40      0.53        10
+           1       0.44      0.78      0.56         9
+           2       0.25      1.00      0.40         3
+           3       0.50      0.08      0.13        13
+
+   micro avg       0.43      0.43      0.43        35
+   macro avg       0.50      0.56      0.41        35
+weighted avg       0.55      0.43      0.38        35
+
+[[4 2 3 1]
+ [1 7 1 0]
+ [0 0 3 0]
+ [0 7 5 1]]
+ - - - - - - - - - - - 
+ 
+ # * # * # * # * # * # * # * #
+ # * # * # * # * # * # * # * #
+ - PLAYLIST TRAINED TO CLF
+ PL CLF index: -8 - - - - - - - - - - - - - - -
+ - ############:
+0
+ - USER:
+chillhopmusic
+ - PLAYLIST:lofi hip hop beats - music to study/relax to ( lo-fi chill hop )
+ - PL ID74sUjcvpGfdOvCHvgzNEDO
+ - ############:
+1
+ - USER:
+spotify
+ - PLAYLIST:All Out 80s
+ - PL ID37i9dQZF1DX4UtSsGT1Sbe
+ - ############:
+2
+ - USER:
+topsify
+ - PLAYLIST:House Music 2020
+ - PL ID2otQLmbi8QWHjDfq3eL0DC
+ - ############:
+3
+ - USER:
+spotify
+ - PLAYLIST:RapCaviar
+ - PL ID37i9dQZF1DX0XUsuxWHRQd
+ -------- RESULTS --------
+ -----   ALL  DATASET PCA-----
+ - kNN  Classifier 
+ - PARAMETERS:
+{"algorithm": "auto", "leaf_size": 1, "metric": "minkowski", "metric_params": null, "n_jobs": null, "n_neighbors": 7, "p": 2, "weights": "distance"}
+ --> Validation: 
+ - Accuracy: 43.68%
+              precision    recall  f1-score   support
+
+           0       0.68      0.74      0.71        38
+           1       0.19      0.89      0.31         9
+           2       0.50      0.05      0.08        22
+           3       0.50      0.06      0.10        18
+
+   micro avg       0.44      0.44      0.44        87
+   macro avg       0.47      0.43      0.30        87
+weighted avg       0.55      0.44      0.38        87
+
+[[28 10  0  0]
+ [ 1  8  0  0]
+ [ 7 13  1  1]
+ [ 5 11  1  1]]
+ - - - - - - - - - - - 
+ 
+ # * # * # * # * # * # * # * #
+ # * # * # * # * # * # * # * #
+ - PLAYLIST TRAINED TO CLF
+ PL CLF index: -9 - - - - - - - - - - - - - - -
+ - ############:
+0
+ - USER:
+chillhopmusic
+ - PLAYLIST:lofi hip hop beats - music to study/relax to ( lo-fi chill hop )
+ - PL ID74sUjcvpGfdOvCHvgzNEDO
+ - ############:
+1
+ - USER:
+spotify
+ - PLAYLIST:All Out 80s
+ - PL ID37i9dQZF1DX4UtSsGT1Sbe
+ - ############:
+2
+ - USER:
+topsify
+ - PLAYLIST:House Music 2020
+ - PL ID2otQLmbi8QWHjDfq3eL0DC
+ - ############:
+3
+ - USER:
+spotify
+ - PLAYLIST:RapCaviar
+ - PL ID37i9dQZF1DX0XUsuxWHRQd
+ - ############:
+4
+ - USER:
+spotify
+ - PLAYLIST:Peaceful Piano
+ - PL ID37i9dQZF1DX4sWSpwq3LiO
+ - ############:
+5
+ - USER:
+spotify
+ - PLAYLIST:¡Viva Latino!
+ - PL ID37i9dQZF1DX10zKzsJ2jva
+ -------- RESULTS --------
+ -----   ALL  DATASET PCA-----
+ - kNN  Classifier 
+ - PARAMETERS:
+{"algorithm": "auto", "leaf_size": 1, "metric": "minkowski", "metric_params": null, "n_jobs": null, "n_neighbors": 5, "p": 2, "weights": "uniform"}
+ --> Validation: 
+ - Accuracy: 44.00%
+              precision    recall  f1-score   support
+
+           0       0.62      0.77      0.69        44
+           1       0.21      0.89      0.33         9
+           2       0.50      0.09      0.15        23
+           3       0.00      0.00      0.00        11
+           5       0.00      0.00      0.00        13
+
+   micro avg       0.44      0.44      0.44       100
+   macro avg       0.26      0.35      0.23       100
+weighted avg       0.41      0.44      0.37       100
+
+[[34 10  0  0  0]
+ [ 1  8  0  0  0]
+ [13  7  2  0  1]
+ [ 4  4  2  0  1]
+ [ 3 10  0  0  0]]
+ - - - - - - - - - - - 
+ 
+ # * # * # * # * # * # * # * #
+ # * # * # * # * # * # * # * #
+ - PLAYLIST TRAINED TO CLF
+ PL CLF index: -10 - - - - - - - - - - - - - - -
+ - ############:
+0
+ - USER:
+chillhopmusic
+ - PLAYLIST:lofi hip hop beats - music to study/relax to ( lo-fi chill hop )
+ - PL ID74sUjcvpGfdOvCHvgzNEDO
+ - ############:
+1
+ - USER:
+topsify
+ - PLAYLIST:House Music 2020
+ - PL ID2otQLmbi8QWHjDfq3eL0DC
+ - ############:
+2
+ - USER:
+spotify_uk_
+ - PLAYLIST:Tropical House
+ - PL ID37i9dQZF1DX0AMssoUKCz7
+ - ############:
+3
+ - USER:
+spotify
+ - PLAYLIST:¡Viva Latino!
+ - PL ID37i9dQZF1DX10zKzsJ2jva
+ - ############:
+4
+ - USER:
+spotify
+ - PLAYLIST:RapCaviar
+ - PL ID37i9dQZF1DX0XUsuxWHRQd
+ -------- RESULTS --------
+ -----   ALL  DATASET PCA-----
+ - kNN  Classifier 
+ - PARAMETERS:
+{"algorithm": "auto", "leaf_size": 1, "metric": "minkowski", "metric_params": null, "n_jobs": null, "n_neighbors": 4, "p": 2, "weights": "uniform"}
+ --> Validation: 
+ - Accuracy: 44.66%
+              precision    recall  f1-score   support
+
+           0       0.62      0.78      0.69        41
+           1       1.00      0.21      0.34        29
+           2       0.19      1.00      0.31         8
+           3       0.00      0.00      0.00         7
+           4       0.00      0.00      0.00        18
+
+   micro avg       0.45      0.45      0.45       103
+   macro avg       0.36      0.40      0.27       103
+weighted avg       0.54      0.45      0.39       103
+
+[[32  0  9  0  0]
+ [13  6 10  0  0]
+ [ 0  0  8  0  0]
+ [ 0  0  7  0  0]
+ [ 7  0  9  2  0]]
+ - - - - - - - - - - - 
+ 
+ # * # * # * # * # * # * # * #
+ # * # * # * # * # * # * # * #
+ - PLAYLIST TRAINED TO CLF
+ PL CLF index: -11 - - - - - - - - - - - - - - -
+ - ############:
+0
+ - USER:
+chillhopmusic
+ - PLAYLIST:lofi hip hop beats - music to study/relax to ( lo-fi chill hop )
+ - PL ID74sUjcvpGfdOvCHvgzNEDO
+ - ############:
+1
+ - USER:
+topsify
+ - PLAYLIST:House Music 2020
+ - PL ID2otQLmbi8QWHjDfq3eL0DC
+ - ############:
+2
+ - USER:
+spotify
+ - PLAYLIST:mint
+ - PL ID37i9dQZF1DX4dyzvuaRJ0n
+ - ############:
+3
+ - USER:
+spotify
+ - PLAYLIST:¡Viva Latino!
+ - PL ID37i9dQZF1DX10zKzsJ2jva
+ -------- RESULTS --------
+ -----   ALL  DATASET PCA-----
+ - kNN  Classifier 
+ - PARAMETERS:
+{"algorithm": "auto", "leaf_size": 1, "metric": "minkowski", "metric_params": null, "n_jobs": null, "n_neighbors": 10, "p": 2, "weights": "uniform"}
+ --> Validation: 
+ - Accuracy: 47.37%
+              precision    recall  f1-score   support
+
+           0       0.62      0.79      0.70        39
+           1       0.43      0.23      0.30        26
+           2       0.00      0.00      0.00        17
+           3       0.27      0.62      0.37        13
+
+   micro avg       0.47      0.47      0.47        95
+   macro avg       0.33      0.41      0.34        95
+weighted avg       0.41      0.47      0.42        95
+
+[[31  2  0  6]
+ [12  6  1  7]
+ [ 4  4  0  9]
+ [ 3  2  0  8]]
+ - - - - - - - - - - - 
+ 
+ # * # * # * # * # * # * # * #
+ # * # * # * # * # * # * # * #
+ - PLAYLIST TRAINED TO CLF
+ PL CLF index: -12 - - - - - - - - - - - - - - -
+ - ############:
+0
+ - USER:
+spotify_france
+ - PLAYLIST:Pop Urbaine
+ - PL ID37i9dQZF1DWYVURwQHUqnN
+ - ############:
+1
+ - USER:
+spotify_france
+ - PLAYLIST:Hits du Moment
+ - PL ID37i9dQZF1DWVuV87wUBNwc
+ - ############:
+2
+ - USER:
+spotify_germany
+ - PLAYLIST:Techno Bunker
+ - PL ID37i9dQZF1DX6J5NfMJS675
+ - ############:
+3
+ - USER:
+spotify
+ - PLAYLIST:Peaceful Piano
+ - PL ID37i9dQZF1DX4sWSpwq3LiO
+ - ############:
+4
+ - USER:
+spotify
+ - PLAYLIST:¡Viva Latino!
+ - PL ID37i9dQZF1DX10zKzsJ2jva
+ -------- RESULTS --------
+ -----   ALL  DATASET PCA-----
+ - kNN  Classifier 
+ - PARAMETERS:
+{"algorithm": "auto", "leaf_size": 1, "metric": "minkowski", "metric_params": null, "n_jobs": null, "n_neighbors": 15, "p": 2, "weights": "distance"}
+ --> Validation: 
+ - Accuracy: 25.00%
+              precision    recall  f1-score   support
+
+           0       0.69      0.30      0.42        30
+           1       0.40      0.12      0.19        16
+           2       0.05      1.00      0.10         1
+           3       0.13      1.00      0.23         3
+           4       0.00      0.00      0.00        10
+
+   micro avg       0.25      0.25      0.25        60
+   macro avg       0.26      0.48      0.19        60
+weighted avg       0.46      0.25      0.27        60
+
+[[ 9  1  7 13  0]
+ [ 2  2  5  7  0]
+ [ 0  0  1  0  0]
+ [ 0  0  0  3  0]
+ [ 2  2  6  0  0]]
+ - - - - - - - - - - - 
+ 
+ # * # * # * # * # * # * # * #
+ # * # * # * # * # * # * # * #
+ - PLAYLIST TRAINED TO CLF
+ PL CLF index: -13 - - - - - - - - - - - - - - -
+ - ############:
+0
+ - USER:
+spotify_france
+ - PLAYLIST:Hits du Moment
+ - PL ID37i9dQZF1DWVuV87wUBNwc
+ - ############:
+1
+ - USER:
+spotify_germany
+ - PLAYLIST:Techno Bunker
+ - PL ID37i9dQZF1DX6J5NfMJS675
+ - ############:
+2
+ - USER:
+spotify
+ - PLAYLIST:Peaceful Piano
+ - PL ID37i9dQZF1DX4sWSpwq3LiO
+ - ############:
+3
+ - USER:
+spotify
+ - PLAYLIST:¡Viva Latino!
+ - PL ID37i9dQZF1DX10zKzsJ2jva
+ -------- RESULTS --------
+ -----   ALL  DATASET PCA-----
+ - kNN  Classifier 
+ - PARAMETERS:
+{"algorithm": "auto", "leaf_size": 1, "metric": "minkowski", "metric_params": null, "n_jobs": null, "n_neighbors": 4, "p": 2, "weights": "distance"}
+ --> Validation: 
+ - Accuracy: 8.33%
+              precision    recall  f1-score   support
+
+           0       0.50      0.05      0.09        21
+           1       0.14      1.00      0.25         2
+           2       0.00      0.00      0.00         0
+           3       0.00      0.00      0.00        13
+
+   micro avg       0.08      0.08      0.08        36
+   macro avg       0.16      0.26      0.08        36
+weighted avg       0.30      0.08      0.06        36
+
+[[ 1  7 13  0]
+ [ 0  2  0  0]
+ [ 0  0  0  0]
+ [ 1  5  7  0]]
+ - - - - - - - - - - - 
+ 
+ # * # * # * # * # * # * # * #
